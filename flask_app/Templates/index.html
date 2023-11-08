@@ -4,8 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- add bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <p>Hello World</p>
+<div class="container text-center">
+    <div class="container d-flex flex-wrap">
+        {% for official in officials %}
+        <div class="official_box">
+            {{ official.first_name }}
+            
+        </div>
+        {% endfor %}
+    </div>
+</div>
 </body>
 </html>
