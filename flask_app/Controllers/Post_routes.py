@@ -1,6 +1,4 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
+from flask_app.Models.Official_models import Official
 
-@app.route('/')
-def index():
-    return render_template("index.html", phrase="hello", times=5)
