@@ -7,15 +7,44 @@
     <!-- add bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-<div class="container text-center">
-    <div class="container d-flex flex-wrap">
-        {% for official in officials %}
-        <div class="official_box">
-            {{ official.first_name }}
-            
+<body class="bg-dark">
+<div class="container my-5">
+    <div class="row my-5 search_bar d-flex justify-content-center">
+        <form action="#" method="POST">
+            <input type="text" name="search_bar" id="" placeholder="Search by state">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    <div class="border-info">
+        <div class="row d-flex justify-content-center">
+            <!-- using bootstrap for responsive design, need to build custom css for larger screens -->
+            {% for official in officials %}
+            <a href="#" class="link-dark ">
+                <div class="col-11 col-sm-5 col-lg-4 col-xl-3 col-xxl-3 official_box bg-success mx-md-2 my-3 justify-content-start border border-danger">
+                    <div class="name row justify-content-start">
+                        <span class="col-auto border border-dark text-left text-light">
+                            {{ official.first_name }} 
+                        </span>
+                        <span class="col-auto text-left text-light border border-dark">
+                            {{ official.last_name }}
+                        </span>
+                        <span class="col text-right border border-dark">
+                            {{ official.state }}
+                        </span>
+                    </div>
+                    <div class="tweets">
+                        <span class="text-left text-light border border-dark">
+                            {{ official.tweets[0].text  }}
+                        </span>
+                        <span>
+                            {{ official.id}}
+                        </span>
+                    </div>
+                </a>
+                
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 </body>
