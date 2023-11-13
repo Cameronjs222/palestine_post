@@ -1,4 +1,5 @@
 from flask_app.Config.mysqlconnection import connectToMySQL
+from flask_app.Models.Post_models import Post
 # Create your models here.
 
 class Official():
@@ -10,6 +11,7 @@ class Official():
         self.twitter_handle = twitter_handle
         self.state = state
         self.district = district
+        self.tweets = []
 
     def to_dict(self):
         return {
@@ -43,7 +45,10 @@ class Official():
         results = connectToMySQL(cls.my_db).query_db(query)
         list_of_officials = []
         for result in results:
+            official_tweets = Post.get_tweets_by_id(result['id'])
             official = Official(result['id'], result['first_name'], result['last_name'], result['twitter_handle'], result['state'], result['district'])
+            official.tweets = official_tweets
+            print(type(official.tweets))
             list_of_officials.append(official)
 
         return list_of_officials
