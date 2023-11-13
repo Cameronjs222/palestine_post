@@ -11,7 +11,7 @@ class Official():
         self.twitter_handle = twitter_handle
         self.state = state
         self.district = district
-        self.tweets = []
+        self.post = []
 
     def to_dict(self):
         return {
@@ -38,17 +38,31 @@ class Official():
         return connectToMySQL(cls.my_db).query_db(query, data)
     
     @classmethod
-    def find_all_officials(cls):
+    def find_all_officials_with_post(cls):
         query = """
         SELECT * FROM officials
         """
         results = connectToMySQL(cls.my_db).query_db(query)
         list_of_officials = []
         for result in results:
-            official_tweets = Post.get_tweets_by_id(result['id'])
+            official_post = Post.get_post_by_id(result['id'])
             official = Official(result['id'], result['first_name'], result['last_name'], result['twitter_handle'], result['state'], result['district'])
-            official.tweets = official_tweets
-            print(type(official.tweets))
+            official.post = official_post
+            print(type(official.post))
+            list_of_officials.append(official)
+
+        return list_of_officials
+    
+    @classmethod
+    def find_all_officials(cls):
+        query = """
+        SELECT * FROM officials
+        """
+        results = connectToMySQL(cls.my_db).query_db(query)
+        print(results)
+        list_of_officials = []
+        for result in results:
+            official = Official(result['id'], result['first_name'], result['last_name'], result['twitter_handle'], result['state'], result['district'])
             list_of_officials.append(official)
 
         return list_of_officials
