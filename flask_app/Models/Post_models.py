@@ -1,8 +1,8 @@
-from scraper import twitter_scrape
-from flask_app.config.mysqlconnection import connectToMySQL
+# from scraper import twitter_scrape
+from flask_app.Config.mysqlconnection import connectToMySQL
 # from official_model import Official
 
-class Tweet():
+class Post():
     my_db = 'palestine_post'
     def __init__(self, data):
         self.id = data['id']
@@ -71,27 +71,38 @@ class Tweet():
     
     @classmethod
     def get_tweets_by_id(cls, official_id):
+        # write a query to get all tweets by official id and check to see if post twitter_handle is in post column title query
         query = """
-        SELECT * FROM post WHERE official_id = %(official_id)s
+        SELECT p.* 
+        From post p
+        Where official_id=2
+        And p.query like ''  
+
         """
 
         data = {
             'official_id': official_id
         }
-
-        return connectToMySQL(cls.my_db).query_db(query, data)
+        # check if tweet contains anthing
+        tweet =  connectToMySQL(cls.my_db).query_db(query, data)
+        if tweet:
+            return tweet
+        else:
+            return [{'text': 'No tweets found'}]
     
     @classmethod
     def get_tweet_by_tweet_id(cls, tweet_id):
         query = """
-        SELECT * FROM post WHERE tweet_id = %(tweet_id)s
+        SELECT * FROM post WHERE (tweet_id = %(tweet_id)s) Limit 1
         """
 
         data = {
             'tweet_id': tweet_id
         }
 
-        return connectToMySQL(cls.my_db).query_db(query, data)
+        tweet =  cls(connectToMySQL(cls.my_db).query_db(query, data))
+
+        return tweet
     
     @classmethod
     def update_tweet(cls, id, text):
