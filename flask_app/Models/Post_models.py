@@ -7,39 +7,39 @@ class Post():
     def __init__(self, data):
         self.id = data['id']
         self.official_id = data['official_id']
-        self.tweet_avatar = data['tweet_avatar']
+        self.post_avatar = data['post_avatar']
         self.url = data['url']
         self.query = data['query']
-        self.tweet_id = data['tweet_id']
+        self.post_id = data['post_id']
         self.text = data['text']
         self.username = data['username']
         self.fullname = data['fullname']
         self.timestamp = data['timestamp']
         self.replies = data['replies']
-        self.retweets = data['retweets']
+        self.reposts = data['reposts']
         self.likes = data['likes']
         self.quotes = data['quotes']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
     @classmethod
-    def create_tweet(cls, data, official_id):
+    def create_post(cls, data, official_id):
         query = """
-        INSERT INTO post (official_id, tweet_avatar, url, query, tweet_id, text, username, fullname, timestamp, replies, retweets, likes, quotes)
-        VALUES (%(official_id)s, %(tweet_avatar)s, %(url)s, %(query)s, %(tweet_id)s, %(text)s, %(username)s, %(fullname)s, %(timestamp)s, %(replies)s, %(retweets)s, %(likes)s, %(quotes)s)
+        INSERT INTO post (official_id, post_avatar, url, query, post_id, text, username, fullname, timestamp, replies, reposts, likes, quotes)
+        VALUES (%(official_id)s, %(post_avatar)s, %(url)s, %(query)s, %(post_id)s, %(text)s, %(username)s, %(fullname)s, %(timestamp)s, %(replies)s, %(reposts)s, %(likes)s, %(quotes)s)
         """
         data = {
             'official_id': official_id,
-            'tweet_avatar': data['tweet_avatar'],
-            'url': data['tweet_url'],
+            'post_avatar': data['post_avatar'],
+            'url': data['post_url'],
             'query': data['query'],
-            'tweet_id': data['tweet_id'],
+            'post_id': data['post_id'],
             'text': data['text'],
             'username': data['username'],
             'fullname': data['fullname'],
             'timestamp': data['timestamp'],
             'replies': data['replies'],
-            'retweets': data['retweets'],
+            'reposts': data['reposts'],
             'likes': data['likes'],
             'quotes': data['quotes']
 
@@ -48,21 +48,21 @@ class Post():
         return connectToMySQL(cls.my_db).query_db(query, data)
     
     @classmethod
-    def add_tweet_images(cls, data, tweet_id):
+    def add_post_images(cls, data, post_id):
         query = """
         INSERT INTO images (post_id, image_url)
         VALUES (%(post_id)s, %(image_url)s)
         """
 
         data = {
-            'post_id': tweet_id,
+            'post_id': post_id,
             'image_url': data['image_url']
         }
 
         return connectToMySQL(cls.my_db).query_db(query, data)
     
     @classmethod
-    def get_tweets(cls):
+    def get_posts(cls):
         query = """
         SELECT * FROM post
         """
@@ -70,44 +70,75 @@ class Post():
         return connectToMySQL(cls.my_db).query_db(query)
     
     @classmethod
-    def get_tweets_by_id(cls, official_id):
-        # write a query to get all tweets by official id and check to see if post twitter_handle is in post column title query
+    def get_all_keywords(cls):
         query = """
-        SELECT p.* 
-        From post p
-        Where official_id=2
-        And p.query like ''  
+        SELECT * FROM keywords
+        """
 
+        return connectToMySQL(cls.my_db).query_db(query)
+    
+
+    # @classmethod
+    # def get_posts_by_id(cls, official_id):
+    #     keywords = cls.get_all_keywords()
+    #     query = """
+    #     SELECT * 
+    #     FROM post 
+    #     WHERE (official_id = %(official_id)s)
+    #     AND (text LIKE %(keywords)s)
+    #     """
+
+    #     data = {
+    #         'official_id': official_id,
+    #         'keywords': '%%Palestine%%'
+    #     }
+
+    #     post = connectToMySQL(cls.my_db).query_db(query, data)
+    
+    #     if post:
+    #         return post
+    #     else:
+    #         return [{'text': 'No posts found'}]
+
+    @classmethod
+    def get_posts_by_id(cls, official_id):
+        keywords = cls.get_all_keywords()
+        query = """
+        SELECT *
+        FROM post
+        JOIN keywords ON INSTR(post.text, keywords.keyword) > 0
+        WHERE post.official_id = %(official_id)s;
         """
 
         data = {
             'official_id': official_id
         }
-        # check if tweet contains anthing
-        tweet =  connectToMySQL(cls.my_db).query_db(query, data)
-        if tweet:
-            return tweet
-        else:
-            return [{'text': 'No tweets found'}]
+
+        post = connectToMySQL(cls.my_db).query_db(query, data)
     
+        if post:
+            return post
+        else:
+            return [{'text': 'No posts found'}]
+
     @classmethod
-    def get_tweet_by_tweet_id(cls, tweet_id):
+    def get_post_by_post_id(cls, post_id):
         query = """
-        SELECT * FROM post WHERE (tweet_id = %(tweet_id)s) Limit 1
+        SELECT * FROM post WHERE (post_id = %(post_id)s) Limit 1
         """
 
         data = {
-            'tweet_id': tweet_id
+            'post_id': post_id
         }
 
-        tweet =  cls(connectToMySQL(cls.my_db).query_db(query, data))
+        post =  cls(connectToMySQL(cls.my_db).query_db(query, data))
 
-        return tweet
+        return post
     
     @classmethod
-    def update_tweet(cls, id, text):
+    def update_post(cls, id, text):
         query = """
-        UPDATE tweets SET text = %(text)s WHERE id = %(id)s
+        UPDATE posts SET text = %(text)s WHERE id = %(id)s
         """
 
         data = {
@@ -119,7 +150,7 @@ class Post():
 
 
 
-def create_rep_and_tweets(officials_list):
+def create_rep_and_posts(officials_list):
     for official_data in officials_list:
         first_name, last_name, twitter_handle, state = official_data.split('\t')
         
@@ -135,34 +166,34 @@ def create_rep_and_tweets(officials_list):
             print(f"Error creating official: {str(e)}")
             continue
         
-        tweets = twitter_scrape(twitter_handle, "2023-10-07")
-        for tweet in tweets:
-            tweet_data = {
-                'tweet_avatar': tweet['tweet_avatar'],
-                'url': tweet['url'],
-                'query': tweet['query'],
-                'tweet_id': tweet['tweet_id'],
-                'text': tweet['text'],
-                'username': tweet['username'],
-                'fullname': tweet['fullname'],
-                'timestamp': tweet['timestamp'],
-                'replies': tweet['replies'],
-                'retweets': tweet['retweets'],
-                'likes': tweet['likes'],
-                'quotes': tweet['quotes']
+        posts = twitter_scrape(twitter_handle, "2023-10-07")
+        for post in posts:
+            post_data = {
+                'post_avatar': post['post_avatar'],
+                'url': post['url'],
+                'query': post['query'],
+                'post_id': post['post_id'],
+                'text': post['text'],
+                'username': post['username'],
+                'fullname': post['fullname'],
+                'timestamp': post['timestamp'],
+                'replies': post['replies'],
+                'reposts': post['reposts'],
+                'likes': post['likes'],
+                'quotes': post['quotes']
             }
 
             try:
-                post_id = Tweet.create_tweet(tweet_data, official_id)
-                print(f"Tweet created with ID: {post_id}")
+                post_id = post.create_post(post_data, official_id)
+                print(f"post created with ID: {post_id}")
                 
-                if len(tweet['images']) > 0:
-                    for image in tweet['images']:
+                if len(post['images']) > 0:
+                    for image in post['images']:
                         image_data = {'image_url': image}
-                        Tweet.add_tweet_images(image_data, post_id)
-                        print(f"Image added to tweet")
+                        post.add_post_images(image_data, post_id)
+                        print(f"Image added to post")
             except Exception as e:
-                print(f"Error creating tweet: {str(e)}")
+                print(f"Error creating post: {str(e)}")
     
-    return "Tweets created"
+    return "posts created"
 
