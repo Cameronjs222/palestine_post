@@ -25,6 +25,24 @@ class Official():
     
     # Find offical by first and last name
     @classmethod
+    def find_official_by_id_with_post(cls, id):
+        query = """
+        SELECT * FROM officials WHERE id = %(id)s
+        """
+
+        data = {
+            'id': id
+        }
+
+        results = connectToMySQL(cls.my_db).query_db(query, data)
+        for official in results:
+            official_post = Post.get_post_by_id(official['id'])
+            official = Official(official['id'], official['first_name'], official['last_name'], official['twitter_handle'], official['state'], official['district'])
+            official.post = official_post
+            print(type(official.post))
+            return official
+        return official
+    @classmethod
     def find_official_by_name(cls, first_name, last_name):
         query = """
         SELECT * FROM officials WHERE first_name = %(first_name)s AND last_name = %(last_name)s
