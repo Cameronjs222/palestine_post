@@ -119,8 +119,7 @@ class Post():
         if post:
             return post
         else:
-            return [{'text': 'No posts found'}]
-
+            return False
     @classmethod
     def get_post_by_post_id(cls, post_id):
         query = """
