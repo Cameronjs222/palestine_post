@@ -10,6 +10,9 @@
     <h1>{{ post.username }}</h1>
     <p>{{post.text}}</p>
     <p>{{post.timestamp}}</p>
+    {% if post.query[23:] == post.username[1:]%}
+    <p>this is not a repost</p>
+    {% endif %}
     {% endfor %}
 </body>
 </html>
