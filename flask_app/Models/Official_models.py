@@ -11,6 +11,7 @@ class Official():
         self.twitter_handle = twitter_handle
         self.state = state
         self.district = district
+        self.phone = None
         self.post = []
 
     def to_dict(self):
