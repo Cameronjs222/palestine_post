@@ -20,3 +20,9 @@ def index():
     print(all_states_list)
     print(count)
     return render_template("search.html" , officials = officials, all_states = all_states_list, count = count)
+
+@app.route('/states/<state>')
+def show_state(state):
+    officials = Official.find_officials_by_state(state)
+    print(officials)
+    return render_template("states.html", officials = officials)
