@@ -7,16 +7,16 @@ class Post():
     def __init__(self, data):
         self.id = data['id']
         self.official_id = data['official_id']
-        self.post_avatar = data['post_avatar']
+        self.post_avatar = data['tweet_avatar']
         self.url = data['url']
         self.query = data['query']
-        self.post_id = data['post_id']
+        self.post_id = data['tweet_id']
         self.text = data['text']
         self.username = data['username']
         self.fullname = data['fullname']
         self.timestamp = data['timestamp']
         self.replies = data['replies']
-        self.reposts = data['reposts']
+        self.retweets = data['retweets']
         self.likes = data['likes']
         self.quotes = data['quotes']
         self.created_at = data['created_at']
@@ -30,7 +30,7 @@ class Post():
         """
         data = {
             'official_id': official_id,
-            'post_avatar': data['post_avatar'],
+            'post_avatar': data['tweet_avatar'],
             'url': data['post_url'],
             'query': data['query'],
             'post_id': data['post_id'],
@@ -102,7 +102,6 @@ class Post():
 
     @classmethod
     def get_posts_by_id(cls, official_id):
-        keywords = cls.get_all_keywords()
         query = """
         SELECT *
         FROM post
@@ -114,10 +113,18 @@ class Post():
             'official_id': official_id
         }
 
-        post = connectToMySQL(cls.my_db).query_db(query, data)
-    
-        if post:
-            return post
+        results = connectToMySQL(cls.my_db).query_db(query, data)
+        posts = []
+        repeated_posts = []
+        for post in results:
+            if post['tweet_id'] in repeated_posts:
+                continue
+            posts.append(cls(post))
+            repeated_posts.append(post['tweet_id'])
+
+        print(posts)
+        if posts:
+            return posts
         else:
             return False
     @classmethod
