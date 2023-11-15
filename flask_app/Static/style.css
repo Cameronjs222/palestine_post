@@ -1,5 +1,11 @@
+body {
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
 .selection {
-    border: 2px solid red;
+    border: 2px solid green;
     display: flex;
     align-items: end;
     gap: 10px;
@@ -7,12 +13,13 @@
 
 
 .my_header {
-    background-color: #f1f1f1;
+    background-color: red;
     padding: 20px;
     text-align: center;
     height: 100px;
     width: 100%;
     margin: 25px;
+
 }
 
 .my_container {
@@ -26,7 +33,7 @@
 }
 
 .my_footnotes {
-    background-color: #f1f1f1;
+    background-color: red;
     padding: 20px;
     text-align: center;
     height: 100px;
@@ -53,3 +60,7 @@
   #myInput:focus {outline: 3px solid #ddd;}
 
 
+my_dropdown button {
+    background-color: red;
+    color: white;
+}
