@@ -56,6 +56,17 @@ class Official():
         return connectToMySQL(cls.my_db).query_db(query, data)
     
     @classmethod
+    def find_officials_by_state(cls, state):
+        query = """
+        SELECT * FROM officials WHERE state like %(state)s
+        """
+
+        data = {
+            'state': f'%%{state}%%',
+        }
+
+        return connectToMySQL(cls.my_db).query_db(query, data)
+    @classmethod
     def find_all_officials_with_post(cls):
         query = """
         SELECT * FROM officials
