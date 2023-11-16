@@ -70,37 +70,6 @@ class Post():
         return connectToMySQL(cls.my_db).query_db(query)
     
     @classmethod
-    def get_all_keywords(cls):
-        query = """
-        SELECT * FROM keywords
-        """
-
-        return connectToMySQL(cls.my_db).query_db(query)
-    
-
-    # @classmethod
-    # def get_posts_by_id(cls, official_id):
-    #     keywords = cls.get_all_keywords()
-    #     query = """
-    #     SELECT * 
-    #     FROM post 
-    #     WHERE (official_id = %(official_id)s)
-    #     AND (text LIKE %(keywords)s)
-    #     """
-
-    #     data = {
-    #         'official_id': official_id,
-    #         'keywords': '%%Palestine%%'
-    #     }
-
-    #     post = connectToMySQL(cls.my_db).query_db(query, data)
-    
-    #     if post:
-    #         return post
-    #     else:
-    #         return [{'text': 'No posts found'}]
-
-    @classmethod
     def get_posts_by_id(cls, official_id):
         query = """
         SELECT *
