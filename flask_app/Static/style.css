@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     background-color: white;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -12,7 +13,6 @@ body, html {
     gap: 10px;
 }
 
-
 .official_header {
     text-align: center;
     height: 5rem;
@@ -22,47 +22,80 @@ body, html {
     display: flex;
     justify-content: space-evenly;
     align-items: end;
-    color: black;
+    color: green;
 }
 
 .official_sidebar {
     text-align: center;
-    height: 150vh;
-    width: 10rem;
-    /* margin-bottom: 25px; */
+    height: 100vh;
+    width: 5rem;
     position: fixed;
     top: 0;
     z-index: 1;
+    border-right: 2px solid red;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0px 0px 50px red;
+}
+
+.official_left_div {
+    text-align: center;
+    height: 150vh;
+    width: 5rem;
+    top: 0;
+}
+
+.official_right_div {
+    text-align: center;
+    height: 150vh;
+    width: 5rem;
+    top: 0;
+    z-index: 1;
+}
+
+.official_site_nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+    border-left: 2px solid red;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0px 0px 50px red;
+
+    position: fixed;
 }
 
 .official_container {
     display: flex;
     align-items: start;
+    justify-content: space-between;
     min-height: 100%;
     width: 100%;
 }
 
 .user_avatar {
-    width: 50px; 
-    height: 50px; 
-    border-radius: 50%; 
-    position: absolute; 
-    top: -9px; 
-    right: -22px; 
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: -9px;
+    right: -22px;
     border: 1px solid red;
 }
 
-
-.official_cards{
-    margin: 0rem 10% 0 10rem;
+.official_cards {
     padding: 20px;
     gap: 30px;
     display: flex;
+    justify-content: center;
     flex-direction: column;
     flex-wrap: wrap;
 }
 
-.official_cards > div {
+.official_cards>div {
     margin: auto;
 }
 
@@ -80,10 +113,11 @@ body, html {
     padding: 14px 20px 12px 45px;
     border: none;
     border-bottom: 1px solid #ddd;
-  }
+}
 
-  #myInput:focus {outline: 3px solid #ddd;}
-
+#myInput:focus {
+    outline: 3px solid #ddd;
+}
 
 my_dropdown button {
     background-color: red;

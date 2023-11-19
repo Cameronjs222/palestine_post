@@ -88,17 +88,7 @@ def create_official_and_posts(officials_list):
 
 
 def get_congress_members(congress, chamber):
-    """
-    Get a list of members for a particular chamber in a specific Congress.
 
-    Args:
-    - congress (str): The Congress number (e.g., "116").
-    - chamber (str): The chamber ("house" or "senate").
-    - api_key (str): Your ProPublica API key.
-
-    Returns:
-    - dict: JSON response containing information about members.
-    """
     base_url = "https://api.propublica.org/congress/v1"
     endpoint = f"/{congress}/{chamber}/members.json"
     url = f"{base_url}{endpoint}"
