@@ -95,8 +95,13 @@ html {
     flex-wrap: wrap;
 }
 
-.official_cards>div {
+.official_cards li {
     margin: auto;
+}
+
+.card_link {
+    text-decoration: none;
+    color: black;
 }
 
 .dropdown-menu {
