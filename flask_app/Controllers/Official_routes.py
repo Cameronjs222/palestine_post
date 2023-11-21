@@ -8,7 +8,6 @@ def admin():
 @app.route('/')
 def index():
     officials = Official.find_all_officials()
-    officials = Official.find_all_officials()
     all_states_set = set()
 
     for official in officials:
