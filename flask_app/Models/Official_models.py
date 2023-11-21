@@ -16,15 +16,66 @@ congress_key = config['API_KEYS']['CONGRESS_API_KEY']
 
 class Official():
     my_db = 'palestine_post'
-    def __init__(self, id, first_name, last_name, twitter_handle, state, district):
+    def __init__(self, id=None, official_id=None, title=None, short_title=None,
+                api_uri=None, first_name=None, middle_name=None, last_name=None,
+                suffix=None, date_of_birth=None, gender=None, party=None,
+                twitter_account=None, facebook_account=None, youtube_account=None,
+                govtrack_id=None, cspan_id=None, votesmart_id=None, icpsr_id=None,
+                crp_id=None, google_entity_id=None, fec_candidate_id=None, url=None,
+                rss_url=None, contact_form=None, in_office=None, cook_pvi=None,
+                dw_nominate=None, ideal_point=None, seniority=None, next_election=None,
+                total_votes=None, missed_votes=None, total_present=None,
+                last_updated=None, ocd_id=None, office=None, phone=None, fax=None,
+                state=None, district=None, missed_votes_pct=None,
+                votes_with_party_pct=None, votes_against_party_pct=None,
+                at_large=None, geoid=None):
         self.id = id
+        self.official_id = official_id
+        self.title = title
+        self.short_title = short_title
+        self.api_uri = api_uri
         self.first_name = first_name
+        self.middle_name = middle_name
         self.last_name = last_name
-        self.twitter_handle = twitter_handle
+        self.suffix = suffix
+        self.date_of_birth = date_of_birth
+        self.gender = gender
+        self.party = party
+        self.twitter_account = twitter_account
+        self.facebook_account = facebook_account
+        self.youtube_account = youtube_account
+        self.govtrack_id = govtrack_id
+        self.cspan_id = cspan_id
+        self.votesmart_id = votesmart_id
+        self.icpsr_id = icpsr_id
+        self.crp_id = crp_id
+        self.google_entity_id = google_entity_id
+        self.fec_candidate_id = fec_candidate_id
+        self.url = url
+        self.rss_url = rss_url
+        self.contact_form = contact_form
+        self.in_office = in_office
+        self.cook_pvi = cook_pvi
+        self.dw_nominate = dw_nominate
+        self.ideal_point = ideal_point
+        self.seniority = seniority
+        self.next_election = next_election
+        self.total_votes = total_votes
+        self.missed_votes = missed_votes
+        self.total_present = total_present
+        self.last_updated = last_updated
+        self.ocd_id = ocd_id
+        self.office = office
+        self.phone = phone
+        self.fax = fax
         self.state = state
         self.district = district
-        self.phone = None
-        self.post = []
+        self.at_large = at_large
+        self.geoid = geoid
+        self.missed_votes_pct = missed_votes_pct
+        self.votes_with_party_pct = votes_with_party_pct
+        self.votes_against_party_pct = votes_against_party_pct
+        self.post = None
 
     def to_dict(self):
         return {
@@ -33,10 +84,51 @@ class Official():
             'last_name': self.last_name,
             'twitter_handle': self.twitter_handle,
             'state': self.state,
-            'district': self.district
+            'district': self.district,
+            'post': self.post,
+            'official_id': self.official_id,
+            'title': self.title,
+            'short_title': self.short_title,
+            'api_uri': self.api_uri,
+            'middle_name': self.middle_name,
+            'suffix': self.suffix,
+            'date_of_birth': self.date_of_birth,
+            'gender': self.gender,
+            'party': self.party,
+            'twitter_account': self.twitter_account,
+            'facebook_account': self.facebook_account,
+            'youtube_account': self.youtube_account,
+            'govtrack_id': self.govtrack_id,
+            'cspan_id': self.cspan_id,
+            'votesmart_id': self.votesmart_id,
+            'icpsr_id': self.icpsr_id,
+            'crp_id': self.crp_id,
+            'google_entity_id': self.google_entity_id,
+            'fec_candidate_id': self.fec_candidate_id,
+            'url': self.url,
+            'rss_url': self.rss_url,
+            'contact_form': self.contact_form,
+            'in_office': self.in_office,
+            'cook_pvi': self.cook_pvi,
+            'dw_nominate': self.dw_nominate,
+            'ideal_point': self.ideal_point,
+            'seniority': self.seniority,
+            'next_election': self.next_election,
+            'total_votes': self.total_votes,
+            'missed_votes': self.missed_votes,
+            'total_present': self.total_present,
+            'last_updated': self.last_updated,
+            'ocd_id': self.ocd_id,
+            'office': self.office,
+            'phone': self.phone,
+            'fax': self.fax,
+            'at_large': self.at_large,
+            'geoid': self.geoid,
+            'missed_votes_pct': self.missed_votes_pct,
+            'votes_with_party_pct': self.votes_with_party_pct,
         }
-    
-    # Find offical by first and last name
+
+
     @classmethod
     def find_official_by_id(cls, id):
         query = """
@@ -48,10 +140,9 @@ class Official():
         }
 
         results = connectToMySQL(cls.my_db).query_db(query, data)
-        for official in results:
-            official = Official(official['id'], official['first_name'], official['last_name'], official['twitter_handle'], official['state'], official['district'])
-            return official
+        official = Official(id=results[0]['id'], first_name=results[0]['first_name'], last_name=results[0]['last_name'], twitter_account=results[0]['twitter_handle'], state=results[0]['state'], district=results[0]['district'])
         return official
+    
     @classmethod
     def find_official_by_id_with_post(cls, id):
         query = """
@@ -63,13 +154,16 @@ class Official():
         }
 
         results = connectToMySQL(cls.my_db).query_db(query, data)
+        officials = []
         for official in results:
-            official_post = Post.get_post_by_id(official['id'])
-            official = Official(official['id'], official['first_name'], official['last_name'], official['twitter_handle'], official['state'], official['district'])
-            official.post = official_post
-            print(type(official.post))
-            return official
-        return official
+            try:
+                official_post = Post.get_post_by_id(official['id'])
+                official = Official(id=official['id'], first_name=official['first_name'], last_name=official['last_name'], twitter_account=official['twitter_handle'], state=official['state'], district=official['district'])
+                official.post = official_post
+                officials.append(official)
+            except:
+                continue
+        return officials
     @classmethod
     def find_official_by_name(cls, first_name, last_name):
         query = """
@@ -81,7 +175,16 @@ class Official():
             'last_name': last_name
         }
 
-        return connectToMySQL(cls.my_db).query_db(query, data)
+        results = connectToMySQL(cls.my_db).query_db(query, data)
+        officials = []
+        for official in results:
+            try:
+                official = Official(id=official['id'], first_name=official['first_name'], last_name=official['last_name'], twitter_account=official['twitter_handle'], state=official['state'], district=official['district'])
+                officials.append(official)
+            except:
+                continue
+        
+        return official
     
     @classmethod
     def find_officials_by_state(cls, state):
@@ -93,22 +196,34 @@ class Official():
             'state': f'%%{state}%%',
         }
 
-        return connectToMySQL(cls.my_db).query_db(query, data)
+        results = connectToMySQL(cls.my_db).query_db(query, data)
+        officials = []
+        for official in results:
+            try:
+                official = Official(id=official['id'], first_name=official['first_name'], last_name=official['last_name'], twitter_account=official['twitter_handle'], state=official['state'], district=official['district'])
+                officials.append(official)
+            except:
+                continue
+
+        return officials
     @classmethod
     def find_all_officials_with_post(cls):
         query = """
         SELECT * FROM officials
         """
         results = connectToMySQL(cls.my_db).query_db(query)
-        list_of_officials = []
+        officials = []
         for result in results:
-            official_post = Post.get_post_by_id(result['id'])
-            official = Official(result['id'], result['first_name'], result['last_name'], result['twitter_handle'], result['state'], result['district'])
-            official.post = official_post
-            print(type(official.post))
-            list_of_officials.append(official)
+            try:
+                official_post = Post.get_post_by_id(result['id'])
+                official = Official(id=result['id'], first_name=result['first_name'], last_name=result['last_name'], twitter_account=result['twitter_handle'], state=result['state'], district=result['district'])
+                official.post = official_post
+                print(type(official.post))
+                officials.append(official)
+            except:
+                continue
 
-        return list_of_officials
+        return officials
     
     @classmethod
     def find_all_officials(cls):
@@ -116,13 +231,13 @@ class Official():
         SELECT * FROM officials
         """
         results = connectToMySQL(cls.my_db).query_db(query)
-        print(results)
-        list_of_officials = []
+        officials = []
         for result in results:
-            official = Official(result['id'], result['first_name'], result['last_name'], result['twitter_handle'], result['state'], result['district'])
-            list_of_officials.append(official)
+            official = Official(id=result['id'], first_name=result['first_name'], last_name=result['last_name'], twitter_account=result['twitter_handle'], state=result['state'], district=result['district'])
+            print(official.id)
+            officials.append(official)
 
-        return list_of_officials
+        return officials
     @classmethod
     def create_official(cls, member):
         query = """
@@ -158,8 +273,8 @@ class Official():
         print(result)
         return result
     
-    @classmethod
-    def get_congress_members(cls, congress, chamber):
+    @staticmethod
+    def get_congress_members(congress, chamber):
         print(congress_key)
         """
         Get a list of members for a particular chamber in a specific Congress.
