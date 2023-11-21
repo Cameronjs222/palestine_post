@@ -25,22 +25,41 @@
                     <span>{{official.last_name}}</span>'s stance on palestine
                 </h1>
             </div>
-            <div class="official_cards">
-                {% for post in posts | sort(attribute='timestamp', reverse=True) %}
-                    <a href="{{ post.url }}" target="_blank">
-                        <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
-                            <img src="{{ post.post_avatar }}" class='user_avatar' alt="">
-                            <div class="card-header bg-dark text-light">{{ official.first_name }} {{ official.last_name }}'s tweet</div>
-                            <div class="card-body bg-light text-dark">
-                                <p class="card-text">{{ post.text }}</p>
-                                <div class="text-end">
-                                    <h6 class="card-subtitle text-body-secondary align-self-end">{{ post.timestamp }}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                {% endfor %}
+<!-- Add this dropdown button somewhere in your HTML, preferably above the post cards -->
+<div class="dropdown">
+    <button class="btn btn-success dropdown-toggle ms-4" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Sort by
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+        <li><a class="dropdown-item" href="?sort=timestamp">Latest</a></li>
+        <li><a class="dropdown-item" href="?sort=likes">Most likes</a></li>
+        <li><a class="dropdown-item" href="?sort=replies">Most replies</a></li>
+        <li><a class="dropdown-item" href="?sort=retweets">Most retweets</a></li>
+    </ul>
+</div>
+
+<!-- Modify your posts loop to handle the sorting parameter -->
+<div class="official_cards">
+    {% set sort_criteria = request.args.get('sort', default='timestamp') %}
+    {% set sorted_posts = posts | sort(attribute=sort_criteria, reverse=True) %}
+
+    {% for post in sorted_posts %}
+        <a href="{{ post.url }}" class="card_link" target="_blank">
+            <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
+                <img src="{{ post.post_avatar }}" class='user_avatar' alt="">
+                <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{ official.last_name }}'s tweet</div>
+                <div class="card-body bg-light text-dark">
+                    <p class="card-text is_link">{{ post.text }}</p>
+                    <div class="text-end">
+                        <h6 class="card-subtitle text-body-secondary align-self-end is_link"> {{ post.timestamp.strftime("%B %d, %Y") }}</h6>
+                    </div>
+                </div>
             </div>
+        </a>
+    {% endfor %}
+</div>
+
+
         </div>
 
         <div class="official_right_div">
