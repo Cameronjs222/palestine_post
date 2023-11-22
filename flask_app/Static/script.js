@@ -14,15 +14,15 @@ function filterFunction(list_container, input_label) {
     }
   }
 
-  function alertFunction(btnId, btnTitle, official, alertDiv) {
+  function alertFunction(btnId, btnTitle, official) {
     const appendAlert = (message, type) => {
         console.log("creating div");
-        const wrapper = document.getElementById(alertDiv);
+        const wrapper = document.getElementById('alertsContainer');
         wrapper.innerHTML = ''
         wrapper.innerHTML = [
             `<div class="alert alert-${type} alert-dismissible" id="${btnId}_alert" role="alert">`,
-            `   <div>${message}</div>`,
             `   <button type="button" class="btn-close" aria-label="Close" onclick="closeAlert('${btnId}_alert')"></button>`,
+            `   <div>${message}</div>`,
             '</div>'
         ].join('');
     };
@@ -30,7 +30,7 @@ function filterFunction(list_container, input_label) {
     const alertTrigger = document.getElementById(btnId);
     if (alertTrigger) {
         alertTrigger.addEventListener('click', () => {
-            appendAlert(`${official}'s ${btnTitle} account is not linked. Please check back later`, 'success');
+            appendAlert(`${official}'s ${btnTitle} is not linked. Please check back later`, 'success');
         });
     }
 }
