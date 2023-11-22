@@ -13,9 +13,103 @@
     <div class="official_container">
 
         <div class="official_left_div">
-            <div class="bg-dark official_user_info official_sidebar">
-                <!-- Content for left_div -->
-            </div>
+            <div class="bg-dark official_user_info official_sidebar text-light">
+                <!-- def __init__(self, id=None, official_id=None, title=None, short_title=None,
+                api_uri=None, first_name=None, middle_name=None, last_name=None,
+                suffix=None, date_of_birth=None, gender=None, party=None,
+                twitter_account=None, facebook_account=None, youtube_account=None,
+                govtrack_id=None, cspan_id=None, votesmart_id=None, icpsr_id=None,
+                crp_id=None, google_entity_id=None, fec_candidate_id=None, url=None,
+                rss_url=None, contact_form=None, in_office=None, cook_pvi=None,
+                dw_nominate=None, ideal_point=None, seniority=None, next_election=None,
+                total_votes=None, missed_votes=None, total_present=None,
+                last_updated=None, ocd_id=None, office=None, phone=None, fax=None,
+                state=None, district=None, missed_votes_pct=None,
+                votes_with_party_pct=None, votes_against_party_pct=None,
+                at_large=None, geoid=None):
+        self.id = id
+        self.official_id = official_id
+        self.title = title
+        self.short_title = short_title
+        self.api_uri = api_uri
+        self.first_name = first_name
+        self.middle_name = middle_name
+        self.last_name = last_name
+        self.suffix = suffix
+        self.date_of_birth = date_of_birth
+        self.gender = gender
+        self.party = party
+        self.twitter_account = twitter_account
+        self.facebook_account = facebook_account
+        self.youtube_account = youtube_account
+        self.govtrack_id = govtrack_id
+        self.cspan_id = cspan_id
+        self.votesmart_id = votesmart_id
+        self.icpsr_id = icpsr_id
+        self.crp_id = crp_id
+        self.google_entity_id = google_entity_id
+        self.fec_candidate_id = fec_candidate_id
+        self.url = url
+        self.rss_url = rss_url
+        self.contact_form = contact_form
+        self.in_office = in_office
+        self.cook_pvi = cook_pvi
+        self.dw_nominate = dw_nominate
+        self.ideal_point = ideal_point
+        self.seniority = seniority
+        self.next_election = next_election
+        self.total_votes = total_votes
+        self.missed_votes = missed_votes
+        self.total_present = total_present
+        self.last_updated = last_updated
+        self.ocd_id = ocd_id
+        self.office = office
+        self.phone = phone
+        self.fax = fax
+        self.state = state
+        self.district = district
+        self.at_large = at_large
+        self.geoid = geoid
+        self.missed_votes_pct = missed_votes_pct
+        self.votes_with_party_pct = votes_with_party_pct
+        self.votes_against_party_pct = votes_against_party_pct
+        self.post = None -->
+        {% if official.twitter_account %}
+        <div class="official_user_info_item">
+            <a href="https://twitter.com/{{ official.twitter_account }}" target="_blank">
+                <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;">
+            </a>
+        </div>
+        {% else %}
+        <div class="official_user_info_item">
+            <a href="#">
+                <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;" onclick="alert('coming soon')">
+            </a>
+        </div>
+        {% endif %}
+        {% if official.facebook_account %}
+        <div class="official_user_info_item">
+            <a href="https://facebook.com/{{ official.facebook_account }}" target="_blank">
+                <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;">
+            </a>
+        </div>
+    {% else %}
+        <div id="facebook_icon" class="official_user_info_item">
+            <a href="#" id="facebook_btn">
+                <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;" onclick="alertFunction(
+                    btnId='facebook_icon', 
+                    buttonTitle='Facebook', 
+                    official='{{official.first_name}} {{official.last_name}}',
+                    alertDiv='FacebookAlertsContainer'
+                    )">
+            </a>
+        </div>
+        <div id="FacebookAlertsContainer">
+
+        </div>
+    {% endif %}
+
+        </div>
         </div>
 
         <div class="official_center_div">
