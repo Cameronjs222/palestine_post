@@ -11,3 +11,14 @@ def show_official(official_id):
     if posts == False:
         return redirect('/noComment/' + str(official_id))
     return render_template('official.html', posts = posts, official = official)
+
+@app.route('/noComment/<int:official_id>')
+def no_comment(official_id):
+    official = Official.find_official_by_id(official_id)
+    return render_template('noComment.html', official = official)
+
+@app.route('/post/new' , methods=['POST'])
+def create_post():
+    print(request.form)
+    Post.create_post(request.form)
+    return redirect('/officials/' + request.form['official_id'])
