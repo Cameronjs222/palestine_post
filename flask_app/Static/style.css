@@ -36,8 +36,17 @@ html {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     box-shadow: 0px 0px 50px red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
+.sidebar_links {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
 .official_left_div {
     text-align: center;
     height: 150vh;
