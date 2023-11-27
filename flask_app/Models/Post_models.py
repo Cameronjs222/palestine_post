@@ -1,6 +1,5 @@
 # from scraper import twitter_scrape
 from flask_app.Config.mysqlconnection import connectToMySQL
-# from official_model import Official
 
 class Post():
     my_db = 'palestine_post'
@@ -124,51 +123,83 @@ class Post():
         return connectToMySQL(cls.my_db).query_db(query, data)
 
 
-
-def create_rep_and_posts(officials_list):
-    for official_data in officials_list:
-        first_name, last_name, twitter_handle, state = official_data.split('\t')
+    # @staticmethod
+    # def create_rep_and_posts(officials_list):
+    #     for official_data in officials_list:
+    #         first_name, last_name, twitter_handle, state = official_data.split('\t')
         
-        try:
-            official_id = Official.create_official({
-                'first_name': first_name,
-                'last_name': last_name,
-                'twitter_handle': twitter_handle,
-                'state': state
-            })
-            print(f"Official created with ID: {official_id}")
-        except Exception as e:
-            print(f"Error creating official: {str(e)}")
-            continue
+    #         try:
+    #             official_id = Official.create_official({
+    #             'first_name': first_name,
+    #             'last_name': last_name,
+    #             'twitter_handle': twitter_handle,
+    #             'state': state
+    #             })
+    #             print(f"Official created with ID: {official_id}")
+    #         except Exception as e:
+    #             print(f"Error creating official: {str(e)}")
+    #             continue
         
-        posts = twitter_scrape(twitter_handle, "2023-10-07")
-        for post in posts:
-            post_data = {
-                'post_avatar': post['post_avatar'],
-                'url': post['url'],
-                'query': post['query'],
-                'post_id': post['post_id'],
-                'text': post['text'],
-                'username': post['username'],
-                'fullname': post['fullname'],
-                'timestamp': post['timestamp'],
-                'replies': post['replies'],
-                'reposts': post['reposts'],
-                'likes': post['likes'],
-                'quotes': post['quotes']
-            }
+    #         posts = twitter_scrape(twitter_handle, "2023-10-07")
+    #         for post in posts:
+    #             post_data = {
+    #                 'post_avatar': post['post_avatar'],
+    #                 'url': post['url'],
+    #                 'query': post['query'],
+    #                 'post_id': post['post_id'],
+    #                 'text': post['text'],
+    #                 'username': post['username'],
+    #                 'fullname': post['fullname'],
+    #                 'timestamp': post['timestamp'],
+    #                 'replies': post['replies'],
+    #                 'reposts': post['reposts'],
+    #                 'likes': post['likes'],
+    #                 'quotes': post['quotes']
+    #             }
 
-            try:
-                post_id = post.create_post(post_data, official_id)
-                print(f"post created with ID: {post_id}")
+    #             try:
+    #                 post_id = post.create_post(post_data, official_id)
+    #                 print(f"post created with ID: {post_id}")
                 
-                if len(post['images']) > 0:
-                    for image in post['images']:
-                        image_data = {'image_url': image}
-                        post.add_post_images(image_data, post_id)
-                        print(f"Image added to post")
-            except Exception as e:
-                print(f"Error creating post: {str(e)}")
+    #                 if len(post['images']) > 0:
+    #                     for image in post['images']:
+    #                         image_data = {'image_url': image}
+    #                         post.add_post_images(image_data, post_id)
+    #                         print(f"Image added to post")
+    #             except Exception as e:
+    #                 print(f"Error creating post: {str(e)}")
     
-    return "posts created"
+    #         return "posts created"
 
+    # @staticmethod
+    # def scrape_post(date):
+    #     officials = Official.find_all_officials()
+    #     for official in officials:
+    #         posts = twitter_scrape(official.twitter_account, "2023-11-07")
+    #         for post in posts:
+    #             post_data = {
+    #                 'post_avatar': post['post_avatar'],
+    #                 'url': post['url'],
+    #                 'query': post['query'],
+    #                 'post_id': post['post_id'],
+    #                 'text': post['text'],
+    #                 'username': post['username'],
+    #                 'fullname': post['fullname'],
+    #                 'timestamp': post['timestamp'],
+    #                 'replies': post['replies'],
+    #                 'reposts': post['reposts'],
+    #                 'likes': post['likes'],
+    #                 'quotes': post['quotes']
+    #             }
+
+    #             try:
+    #                 post_id = post.create_post(post_data, official.id)
+    #                 print(f"post created with ID: {post_id}")
+                    
+    #                 if len(post['images']) > 0:
+    #                     for image in post['images']:
+    #                         image_data = {'image_url': image}
+    #                         post.add_post_images(image_data, post_id)
+    #                         print(f"Image added to post")
+    #             except Exception as e:
+    #                 print(f"Error creating post: {str(e)}")
