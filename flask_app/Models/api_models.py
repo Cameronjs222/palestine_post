@@ -105,13 +105,5 @@ def get_congress_members(congress, chamber):
         print(f"Error making API request: {e}")
         return None
 
-# Example usage
-congress_number = "116"
-chamber_type = "house"
-
-result = get_congress_members(congress_number, chamber_type)
-
-if result:
-    print(result)
-    
+  
     
