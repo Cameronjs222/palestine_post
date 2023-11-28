@@ -11,7 +11,28 @@
     <div class="">
         <h1>Find your representatives </h1>
     </div>
+    <div>
+        <h2>Your state Senators</h2>
+    </div>
     {% for official in officials %}
+    {% if official.state|length < 4 %}
+    <a href="../states/{{official.state}}" class="card_link" target="_blank">
+        <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
+            <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
+            <div class="card-header bg-dark text-light is_link">{{ official.state }}</div>
+            <div class="card-body bg-light text-dark">
+                <p class="card-text is_link">This is a test</p>
+                <div class="text-end">
+            </div>
+            </div>
+        </div>
+    </a>
+    {% endif %}
+    {% endfor %}
+    <div>
+        <h2>Your state Representatives</h2>
+    {% for official in officials %}
+    {% if official.state|length > 3 %}
     <!-- create link to officials/official.id -->
     <a href="../officials/{{official.id}}" class="card_link" target="_blank">
         <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
@@ -24,6 +45,7 @@
             </div>
         </div>
     </a>
+    {% endif %}
 {% endfor %}
 </body>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
