@@ -165,27 +165,36 @@ class Official():
                 continue
         return officials
     @classmethod
-    def find_official_by_name(cls, first_name, last_name):
+    def find_officials_by_name(cls, first_name, last_name):
         query = """
-        SELECT * FROM officials WHERE first_name = %(first_name)s AND last_name = %(last_name)s
+        SELECT * FROM officials WHERE first_name LIKE %(first_name)s AND last_name LIKE %(last_name)s
         """
 
         data = {
-            'first_name': first_name,
-            'last_name': last_name
+            'first_name': f"%{first_name}%",
+            'last_name': f"%{last_name}%"
         }
 
         results = connectToMySQL(cls.my_db).query_db(query, data)
         officials = []
-        for official in results:
+
+        for official_data in results:
             try:
-                official = Official(id=official['id'], first_name=official['first_name'], last_name=official['last_name'], twitter_account=official['twitter_handle'], state=official['state'], district=official['district'])
+                official = Official(
+                    id=official_data['id'],
+                    first_name=official_data['first_name'],
+                    last_name=official_data['last_name'],
+                    twitter_account=official_data['twitter_handle'],
+                    state=official_data['state'],
+                    district=official_data['district']
+                )
                 officials.append(official)
             except:
+                # Handle the specific exception, log or take appropriate action
                 continue
-        
-        return official
-    
+
+        return officials
+
     @classmethod
     def find_officials_by_state(cls, state):
         query = """
@@ -273,6 +282,43 @@ class Official():
         print(result)
         return result
     
+    @classmethod
+    def update_official(cls, member):
+        query = """
+            UPDATE your_table_name
+            SET title=%s, short_title=%s, api_uri=%s, first_name=%s, middle_name=%s, last_name=%s, suffix=%s,
+            date_of_birth=%s, gender=%s, party=%s, twitter_account=%s, facebook_account=%s, youtube_account=%s,
+            govtrack_id=%s, cspan_id=%s, votesmart_id=%s, icpsr_id=%s, crp_id=%s, google_entity_id=%s,
+            fec_candidate_id=%s, url=%s, rss_url=%s, contact_form=%s, in_office=%s, cook_pvi=%s, dw_nominate=%s,
+            ideal_point=%s, seniority=%s, next_election=%s, total_votes=%s, missed_votes=%s, total_present=%s,
+            last_updated=%s, ocd_id=%s, office=%s, phone=%s, fax=%s, state=%s, district=%s, at_large=%s, geoid=%s,
+            missed_votes_pct=%s, votes_with_party_pct=%s, votes_against_party_pct=%s
+            WHERE official_id=%s
+        """
+
+        # Extract values from the member data
+        data = (
+            member['title'], member['short_title'], member['api_uri'],
+            member['first_name'], member['middle_name'], member['last_name'], member['suffix'],
+            member['date_of_birth'], member['gender'], member['party'], member['twitter_account'],
+            member['facebook_account'], member['youtube_account'], member['govtrack_id'],
+            member['cspan_id'], member['votesmart_id'], member['icpsr_id'], member['crp_id'],
+            member['google_entity_id'], member['fec_candidate_id'], member['url'],
+            member['rss_url'], member['contact_form'], member['in_office'], member['cook_pvi'],
+            member['dw_nominate'], member['ideal_point'], member['seniority'], member['next_election'],
+            member['total_votes'], member['missed_votes'], member['total_present'],
+            member['last_updated'], member['ocd_id'], member['office'], member['phone'],
+            member['fax'], member['state'], member['district'], member['at_large'], member['geoid'],
+            member['missed_votes_pct'], member['votes_with_party_pct'], member['votes_against_party_pct'],
+            member['official_id']  # official_id is used as the condition for the update
+        )
+    
+        result = connectToMySQL(cls.my_db).query_db(query, data)
+        print(result)
+        return result
+
+
+
     @staticmethod
     def get_congress_members(congress, chamber):
         print(congress_key)
