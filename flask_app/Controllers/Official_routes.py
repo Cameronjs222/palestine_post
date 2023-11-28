@@ -1,6 +1,7 @@
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
 from flask_app.Models.Official_models import Official
+from flask_app.Models.api_models import twitter_scrape, get_congress_members, create_official_and_posts
 
 @app.route('/admin')
 def admin():
@@ -29,13 +30,24 @@ def show_state(state):
     print(officials)
     return render_template("states.html", officials = officials)
 
-@app.route('/officials/new', methods = ['POST'])
-def new_official():
-    senate = Official.get_congress_members(117, 'senate')
-    house = Official.get_congress_members(117, 'house')
-    print(senate)
-    for member in senate['results'][0]['members']:
-        Official.create_official(member)
-    for member in house['results'][0]['members']:
-        Official.create_official(member)
-    return render_template("index.html")
+@app.route('/official/congress/get', methods=['POST', 'GET'])
+def create_post():
+    print(request.form)
+    try:
+        congress = int(request.form['select_term'])
+        chamber = request.form['select_chamber']
+        full_congress = get_congress_members(congress, chamber)
+        if full_congress:
+            for member in full_congress:
+                if Official.find_official_by_name(member['first_name'], member['last_name']):
+                    Official.update_official(member)
+                else:
+                    Official.create_official(member)
+        return redirect(f'/admin?congress={congress}&chamber={chamber}&full_congress=True')
+    except KeyError:
+        chamber = request.form['select_chamber']
+        return redirect(f'/admin?chamber={chamber}&full_congress=False')
+    except ValueError:
+        # Handle the case where 'select_term' cannot be converted to an integer
+        return redirect('/admin?full_congress=False')
+    
