@@ -14,7 +14,19 @@
             <input type="submit" value="Load new">
         </form>
     </div>
+    <div class="row my-5 search_bar d-flex justify-content-center">
+        <form action="../official/congress/get" method="POST">
+            <input type="text" name="select_chamber" placeholder="senate">
+            <input type="text" name="select_term" placeholder="116">
+            <input type="submit" value="Search">
+        </form>
+    </div>
 
+    {% if full_congress %}
+    <p>full_congress</p>
+    {% else %}
+    <p>not full_congress</p>
+    {% endif %}
 </div>
 </body>
 </html>
