@@ -2,6 +2,8 @@ from flask_app import app
 from flask import render_template, redirect, request, session, flash
 from flask_app.Models.Official_models import Official
 from flask_app.Models.api_models import twitter_scrape, get_congress_members, create_official_and_posts
+from concurrent.futures import ThreadPoolExecutor
+import concurrent.futures
 
 @app.route('/admin')
 def admin():
@@ -51,3 +53,26 @@ def create_post():
         # Handle the case where 'select_term' cannot be converted to an integer
         return redirect('/admin?full_congress=False')
     
+@app.route('/official/twitter/update', methods=['POST', 'GET'])
+def update_twitter():
+    print(request.form)
+    date = request.form['date']
+    
+    try:
+        full_congress = Official.find_all_officials()
+        if full_congress:
+            # Use ThreadPoolExecutor to parallelize API calls
+            with ThreadPoolExecutor() as executor:
+                # Use list comprehension to submit tasks
+                futures = [executor.submit(twitter_scrape, member.twitter_account, date) for member in full_congress]
+                
+                # Wait for all tasks to complete
+                concurrent.futures.wait(futures)
+            
+        return redirect(f'/admin?full_congress=True')
+    except KeyError:
+        chamber = request.form['select_chamber']
+        return redirect(f'/admin?chamber={chamber}&full_congress=False')
+    except ValueError:
+        # Handle the case where 'select_term' cannot be converted to an integer
+        return redirect('/admin?full_congress=False')
