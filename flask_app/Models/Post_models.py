@@ -2,7 +2,7 @@
 from flask_app.Config.mysqlconnection import connectToMySQL
 
 class Post():
-    my_db = 'palestine_post'
+    my_db = 'palestine_tweets'
     def __init__(self, data):
         self.id = data['id']
         self.official_id = data['official_id']
