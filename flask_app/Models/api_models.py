@@ -1,27 +1,18 @@
 from apify_client import ApifyClient
+from config import apify_api_key, congress_api_key
 import requests
-import configparser
 import os
 # Load the API key from the .env file
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-# apify_key = os.g('apify_api_key')
-# congress_key = os.getenv('congress_api_key')
-apify_key = config['API_KEYS']['APIFY_API_KEY']
-congress_key = config['API_KEYS']['CONGRESS_API_KEY']
-print(congress_key)
-# Create your models here.
 
 
 # Initialize the ApifyClient with your API token
-client = ApifyClient(token=apify_key)
+client = ApifyClient(apify_api_key)
 
-def twitter_scrape(official, date):
+def twitter_scrape(official, date, limit=500):
     output = []
 # Prepare the Actor input
     run_input = {
-            "max_tweets": 500,
+            "max_tweets": limit,
             "language": "any",
             "use_experimental_scraper": False,
             "user_info": "user info and replying info",
@@ -93,7 +84,7 @@ def get_congress_members(congress, chamber):
     endpoint = f"/{congress}/{chamber}/members.json"
     url = f"{base_url}{endpoint}"
 
-    headers = {"X-API-Key": congress_key}
+    headers = {"X-API-Key": congress_api_key}
 
     try:
         response = requests.get(url, headers=headers)
@@ -103,7 +94,4 @@ def get_congress_members(congress, chamber):
 
     except requests.exceptions.RequestException as e:
         print(f"Error making API request: {e}")
-        return None
-
-  
-    
+        return None    
