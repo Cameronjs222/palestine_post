@@ -39,17 +39,24 @@ def create_post():
         congress = int(request.form['select_term'])
         chamber = request.form['select_chamber']
         full_congress = get_congress_members(congress, chamber)
+        print(full_congress)
         if full_congress:
-            for member in full_congress:
-                if Official.find_official_by_name(member['first_name'], member['last_name']):
-                    Official.update_official(member)
+            for member in full_congress['results'][0]['members']:
+                member['last_updated'] = member['last_updated'][:10]
+                official_id = Official.find_officials_by_name(member['first_name'], member['last_name'])
+                if official_id:
+                    print(official_id)
+                    Official.update_official(member, official_id)
                 else:
+                    print(member)
                     Official.create_official(member)
         return redirect(f'/admin?congress={congress}&chamber={chamber}&full_congress=True')
-    except KeyError:
+    except KeyError as e:
+        print("KeyError" + str(e))
         chamber = request.form['select_chamber']
         return redirect(f'/admin?chamber={chamber}&full_congress=False')
-    except ValueError:
+    except ValueError as e:
+        print("ValueError" + str(e))
         # Handle the case where 'select_term' cannot be converted to an integer
         return redirect('/admin?full_congress=False')
     
