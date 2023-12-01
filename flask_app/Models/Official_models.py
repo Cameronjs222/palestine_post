@@ -1,21 +1,14 @@
 from flask_app.Config.mysqlconnection import connectToMySQL
 from flask_app.Models.Post_models import Post
 from apify_client import ApifyClient
+from config import congress_api_key
 import requests
 import configparser
 import os
-# Load the API key from the .env file
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-# apify_key = os.g('apify_api_key')
-# congress_key = os.getenv('congress_api_key')
-apify_key = config['API_KEYS']['APIFY_API_KEY']
-congress_key = config['API_KEYS']['CONGRESS_API_KEY']
 # Create your models here.
 
 class Official():
-    my_db = 'palestine_post'
+    my_db = 'palestine_tweets'
     def __init__(self, id=None, official_id=None, title=None, short_title=None,
                 api_uri=None, first_name=None, middle_name=None, last_name=None,
                 suffix=None, date_of_birth=None, gender=None, party=None,
@@ -171,30 +164,33 @@ class Official():
         """
 
         data = {
-            'first_name': f"%{first_name}%",
-            'last_name': f"%{last_name}%"
+            'first_name': f"%%{first_name}%%",
+            'last_name': f"%%{last_name}%%"
         }
 
         results = connectToMySQL(cls.my_db).query_db(query, data)
+        print(results)
         officials = []
-
-        for official_data in results:
-            try:
-                official = Official(
-                    id=official_data['id'],
-                    first_name=official_data['first_name'],
-                    last_name=official_data['last_name'],
-                    twitter_account=official_data['twitter_handle'],
-                    state=official_data['state'],
-                    district=official_data['district']
-                )
-                officials.append(official)
-            except:
+        if results:
+            print("found officials")
+            for official_data in results:
+                try:
+                    official = Official(
+                        id=official_data['id'],
+                        first_name=official_data['first_name'],
+                        last_name=official_data['last_name'],
+                        twitter_account=official_data['twitter_handle'],
+                        state=official_data['state'],
+                        district=official_data['district']
+                    )
+                    officials.append(official)
+                except:
                 # Handle the specific exception, log or take appropriate action
-                continue
+                    continue
 
-        return officials
-
+            return officials
+        else:
+            return False
     @classmethod
     def find_officials_by_state(cls, state):
         query = """
@@ -250,44 +246,95 @@ class Official():
     @classmethod
     def create_official(cls, member):
         query = """
-            INSERT INTO your_table_name (
+            INSERT INTO officials (
                 official_id, title, short_title, api_uri, first_name, middle_name, last_name, suffix,
-                date_of_birth, gender, party, twitter_account, facebook_account, youtube_account,
+                date_of_birth, gender,
+
+                party, twitter_handle, facebook_account, youtube_account,
                 govtrack_id, cspan_id, votesmart_id, icpsr_id, crp_id, google_entity_id,
+
                 fec_candidate_id, url, rss_url, contact_form, in_office, cook_pvi, dw_nominate,
-                ideal_point, seniority, next_election, total_votes, missed_votes, total_present,
-                last_updated, ocd_id, office, phone, fax, state, district, at_large, geoid,
-                missed_votes_pct, votes_with_party_pct, votes_against_party_pct, at_large, geoid
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ideal_point, seniority, next_election,
+
+                total_votes, missed_votes, total_present,
+                last_updated, ocd_id, office, phone, fax, state, district,
+
+                missed_votes_pct, votes_with_party_pct, votes_against_party_pct, at_large, geoid) 
+                
+                VALUES (%(official_id)s, %(title)s, %(short_title)s, %(api_uri)s, %(first_name)s, %(middle_name)s, %(last_name)s, %(suffix)s,
+                %(date_of_birth)s, %(gender)s, 
+                
+                %(party)s, %(twitter_handle)s, %(facebook_account)s, %(youtube_account)s,
+                %(govtrack_id)s, %(cspan_id)s, %(votesmart_id)s, %(icpsr_id)s, %(crp_id)s, %(google_entity_id)s,
+                
+                %(fec_candidate_id)s, %(url)s, %(rss_url)s, %(contact_form)s, %(in_office)s, %(cook_pvi)s, %(dw_nominate)s,
+                %(ideal_point)s, %(seniority)s, %(next_election)s, 
+                
+                %(total_votes)s, %(missed_votes)s, %(total_present)s,
+                %(last_updated)s, %(ocd_id)s, %(office)s, %(phone)s, %(fax)s, %(state)s, %(district)s, 
+                
+                %(missed_votes_pct)s, %(votes_with_party_pct)s, %(votes_against_party_pct)s, %(at_large)s, %(geoid)s)
         """
 
         # Extract values from the member data
-        data = (
-            member['id'], member['title'], member['short_title'], member['api_uri'],
-            member['first_name'], member['middle_name'], member['last_name'], member['suffix'],
-            member['date_of_birth'], member['gender'], member['party'], member['twitter_account'],
-            member['facebook_account'], member['youtube_account'], member['govtrack_id'],
-            member['cspan_id'], member['votesmart_id'], member['icpsr_id'], member['crp_id'],
-            member['google_entity_id'], member['fec_candidate_id'], member['url'],
-            member['rss_url'], member['contact_form'], member['in_office'], member['cook_pvi'],
-            member['dw_nominate'], member['ideal_point'], member['seniority'], member['next_election'],
-            member['total_votes'], member['missed_votes'], member['total_present'],
-            member['last_updated'], member['ocd_id'], member['office'], member['phone'],
-            member['fax'], member['state'], member['district'], member['at_large'], member['geoid'],
-            member['missed_votes_pct'], member['votes_with_party_pct'], member['votes_against_party_pct'], member['at_large'], member['geoid']
-        )
+        data = {
+        'official_id': member.get('id', None),
+        'title': member.get('title', None),
+        'short_title': member.get('short_title', None),
+        'api_uri': member.get('api_uri', None),
+        'first_name': member.get('first_name', None),
+        'middle_name': member.get('middle_name', None),
+        'last_name': member.get('last_name', None),
+        'suffix': member.get('suffix', None),
+        'date_of_birth': member.get('date_of_birth', None),
+        'gender': member.get('gender', None),
+        'party': member.get('party', None),
+        'twitter_handle': member.get('twitter_account', None),
+        'facebook_account': member.get('facebook_account', None),
+        'youtube_account': member.get('youtube_account', None),
+        'govtrack_id': member.get('govtrack_id', None),
+        'cspan_id': member.get('cspan_id', None),
+        'votesmart_id': member.get('votesmart_id', None),
+        'icpsr_id': member.get('icpsr_id', None),
+        'crp_id': member.get('crp_id', None),
+        'google_entity_id': member.get('google_entity_id', None),
+        'fec_candidate_id': member.get('fec_candidate_id', None),
+        'url': member.get('url', None),
+        'rss_url': member.get('rss_url', None),
+        'contact_form': member.get('contact_form', None),
+        'in_office': member.get('in_office', None),
+        'cook_pvi': member.get('cook_pvi', None),
+        'dw_nominate': member.get('dw_nominate', None),
+        'ideal_point': member.get('ideal_point', None),
+        'seniority': member.get('seniority', None),
+        'next_election': member.get('next_election', None),
+        'total_votes': member.get('total_votes', None),
+        'missed_votes': member.get('missed_votes', None),
+        'total_present': member.get('total_present', None),
+        'last_updated': member.get('last_updated', None),
+        'ocd_id': member.get('ocd_id', None),
+        'office': member.get('office', None),
+        'phone': member.get('phone', None),
+        'fax': member.get('fax', None),
+        'state': member.get('state', None),
+        'district': member.get('district', None),
+        'missed_votes_pct': member.get('missed_votes_pct', None),
+        'votes_with_party_pct': member.get('votes_with_party_pct', None),
+        'votes_against_party_pct': member.get('votes_against_party_pct', None),
+        'at_large': member.get('at_large', None),
+        'geoid': member.get('geoid', None)
+        }
+
         result = connectToMySQL(cls.my_db).query_db(query, data)
-        print(result)
+        print(result, "result")
         return result
     
     @classmethod
-    def update_official(cls, member):
+    def update_official(cls, member, id):
         query = """
             UPDATE your_table_name
             SET title=%s, short_title=%s, api_uri=%s, first_name=%s, middle_name=%s, last_name=%s, suffix=%s,
-            date_of_birth=%s, gender=%s, party=%s, twitter_account=%s, facebook_account=%s, youtube_account=%s,
+            date_of_birth=%s, gender=%s, party=%s, twitter_handle=%s, facebook_account=%s, youtube_account=%s,
             govtrack_id=%s, cspan_id=%s, votesmart_id=%s, icpsr_id=%s, crp_id=%s, google_entity_id=%s,
             fec_candidate_id=%s, url=%s, rss_url=%s, contact_form=%s, in_office=%s, cook_pvi=%s, dw_nominate=%s,
             ideal_point=%s, seniority=%s, next_election=%s, total_votes=%s, missed_votes=%s, total_present=%s,
@@ -310,7 +357,7 @@ class Official():
             member['last_updated'], member['ocd_id'], member['office'], member['phone'],
             member['fax'], member['state'], member['district'], member['at_large'], member['geoid'],
             member['missed_votes_pct'], member['votes_with_party_pct'], member['votes_against_party_pct'],
-            member['official_id']  # official_id is used as the condition for the update
+            id # official_id is used as the condition for the update
         )
     
         result = connectToMySQL(cls.my_db).query_db(query, data)
