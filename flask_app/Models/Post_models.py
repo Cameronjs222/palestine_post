@@ -17,7 +17,8 @@ class Post():
         self.replies = data['replies']
         self.retweets = data['retweets']
         self.likes = data['likes']
-        self.quotes = data['quotes']
+        self.quotes = data['quotes'],
+        self.links = data['links']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
