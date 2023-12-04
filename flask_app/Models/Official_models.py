@@ -174,20 +174,56 @@ class Official():
         if results:
             print("found officials")
             for official_data in results:
-                try:
-                    official = Official(
-                        id=official_data['id'],
-                        first_name=official_data['first_name'],
-                        last_name=official_data['last_name'],
-                        twitter_account=official_data['twitter_handle'],
-                        state=official_data['state'],
-                        district=official_data['district']
+                official = Official(
+                    id= official_data.get('id', None),
+                    official_id= official_data.get('official_id', None),
+                    title= official_data.get('title', None),
+                    short_title= official_data.get('short_title', None),
+                    api_uri= official_data.get('api_uri', None),
+                    first_name= official_data.get('first_name', None),
+                    middle_name= official_data.get('middle_name', None),
+                    last_name= official_data.get('last_name', None),
+                    suffix= official_data.get('suffix', None),
+                    date_of_birth= official_data.get('date_of_birth', None),
+                    gender= official_data.get('gender', None),
+                    party= official_data.get('party', None),
+                    twitter_account= official_data.get('twitter_handle', None),
+                    facebook_account= official_data.get('facebook_account', None),
+                    youtube_account= official_data.get('youtube_account', None),
+                    govtrack_id= official_data.get('govtrack_id', None),
+                    cspan_id= official_data.get('cspan_id', None),
+                    votesmart_id= official_data.get('votesmart_id', None),
+                    icpsr_id= official_data.get('icpsr_id', None),
+                    crp_id= official_data.get('crp_id', None),
+                    google_entity_id= official_data.get('google_entity_id', None),
+                    fec_candidate_id= official_data.get('fec_candidate_id', None),
+                    url= official_data.get('url', None),
+                    rss_url= official_data.get('rss_url', None),
+                    contact_form= official_data.get('contact_form', None),
+                    in_office= official_data.get('in_office', None),
+                    cook_pvi= official_data.get('cook_pvi', None),
+                    dw_nominate= official_data.get('dw_nominate', None),
+                    ideal_point= official_data.get('ideal_point', None),
+                    seniority= official_data.get('seniority', None),
+                    next_election= official_data.get('next_election', None),
+                    total_votes= official_data.get('total_votes', None),
+                    missed_votes= official_data.get('missed_votes', None),
+                    total_present= official_data.get('total_present', None),
+                    last_updated= official_data.get('last_updated', None),
+                    ocd_id= official_data.get('ocd_id', None),
+                    office= official_data.get('office', None),
+                    phone= official_data.get('phone', None),
+                    fax= official_data.get('fax', None),
+                    state= official_data.get('state', None),
+                    district= official_data.get('district', None),
+                    missed_votes_pct= official_data.get('missed_votes_pct', None),
+                    votes_with_party_pct= official_data.get('votes_with_party_pct', None),
+                    votes_against_party_pct= official_data.get('votes_against_party_pct', None),
+                    at_large= official_data.get('at_large', None),
+                    geoid= official_data.get('geoid', None)
                     )
-                    officials.append(official)
-                except:
-                # Handle the specific exception, log or take appropriate action
-                    continue
-
+                officials.append(official)
+            print(officials, " officials")
             return officials
         else:
             return False
@@ -332,33 +368,109 @@ class Official():
     @classmethod
     def update_official(cls, member, id):
         query = """
-            UPDATE your_table_name
-            SET title=%s, short_title=%s, api_uri=%s, first_name=%s, middle_name=%s, last_name=%s, suffix=%s,
-            date_of_birth=%s, gender=%s, party=%s, twitter_handle=%s, facebook_account=%s, youtube_account=%s,
-            govtrack_id=%s, cspan_id=%s, votesmart_id=%s, icpsr_id=%s, crp_id=%s, google_entity_id=%s,
-            fec_candidate_id=%s, url=%s, rss_url=%s, contact_form=%s, in_office=%s, cook_pvi=%s, dw_nominate=%s,
-            ideal_point=%s, seniority=%s, next_election=%s, total_votes=%s, missed_votes=%s, total_present=%s,
-            last_updated=%s, ocd_id=%s, office=%s, phone=%s, fax=%s, state=%s, district=%s, at_large=%s, geoid=%s,
-            missed_votes_pct=%s, votes_with_party_pct=%s, votes_against_party_pct=%s
-            WHERE official_id=%s
+UPDATE officials
+SET 
+    official_id = %(official_id)s, 
+    title = %(title)s, 
+    short_title = %(short_title)s, 
+    api_uri = %(api_uri)s, 
+    first_name = %(first_name)s, 
+    middle_name = %(middle_name)s, 
+    last_name = %(last_name)s, 
+    suffix = %(suffix)s,
+    date_of_birth = %(date_of_birth)s, 
+    gender = %(gender)s,
+
+    party = %(party)s, 
+    twitter_handle = %(twitter_handle)s, 
+    facebook_account = %(facebook_account)s, 
+    youtube_account = %(youtube_account)s,
+    govtrack_id = %(govtrack_id)s, 
+    cspan_id = %(cspan_id)s, 
+    votesmart_id = %(votesmart_id)s, 
+    icpsr_id = %(icpsr_id)s, 
+    crp_id = %(crp_id)s, 
+    google_entity_id = %(google_entity_id)s,
+
+    fec_candidate_id = %(fec_candidate_id)s, 
+    url = %(url)s, 
+    rss_url = %(rss_url)s, 
+    contact_form = %(contact_form)s, 
+    in_office = %(in_office)s, 
+    cook_pvi = %(cook_pvi)s, 
+    dw_nominate = %(dw_nominate)s,
+    ideal_point = %(ideal_point)s, 
+    seniority = %(seniority)s, 
+    next_election = %(next_election)s,
+
+    total_votes = %(total_votes)s, 
+    missed_votes = %(missed_votes)s, 
+    total_present = %(total_present)s,
+    last_updated = %(last_updated)s, 
+    ocd_id = %(ocd_id)s, 
+    office = %(office)s, 
+    phone = %(phone)s, 
+    fax = %(fax)s, 
+    state = %(state)s, 
+    district = %(district)s,
+
+    missed_votes_pct = %(missed_votes_pct)s, 
+    votes_with_party_pct = %(votes_with_party_pct)s, 
+    votes_against_party_pct = %(votes_against_party_pct)s, 
+    at_large = %(at_large)s, 
+    geoid = %(geoid)s
+WHERE official_id = %(id)s;
         """
 
         # Extract values from the member data
-        data = (
-            member['title'], member['short_title'], member['api_uri'],
-            member['first_name'], member['middle_name'], member['last_name'], member['suffix'],
-            member['date_of_birth'], member['gender'], member['party'], member['twitter_account'],
-            member['facebook_account'], member['youtube_account'], member['govtrack_id'],
-            member['cspan_id'], member['votesmart_id'], member['icpsr_id'], member['crp_id'],
-            member['google_entity_id'], member['fec_candidate_id'], member['url'],
-            member['rss_url'], member['contact_form'], member['in_office'], member['cook_pvi'],
-            member['dw_nominate'], member['ideal_point'], member['seniority'], member['next_election'],
-            member['total_votes'], member['missed_votes'], member['total_present'],
-            member['last_updated'], member['ocd_id'], member['office'], member['phone'],
-            member['fax'], member['state'], member['district'], member['at_large'], member['geoid'],
-            member['missed_votes_pct'], member['votes_with_party_pct'], member['votes_against_party_pct'],
-            id # official_id is used as the condition for the update
-        )
+        data = {
+        'official_id': member.get('id', None),
+        'title': member.get('title', None),
+        'short_title': member.get('short_title', None),
+        'api_uri': member.get('api_uri', None),
+        'first_name': member.get('first_name', None),
+        'middle_name': member.get('middle_name', None),
+        'last_name': member.get('last_name', None),
+        'suffix': member.get('suffix', None),
+        'date_of_birth': member.get('date_of_birth', None),
+        'gender': member.get('gender', None),
+        'party': member.get('party', None),
+        'twitter_handle': member.get('twitter_account', None),
+        'facebook_account': member.get('facebook_account', None),
+        'youtube_account': member.get('youtube_account', None),
+        'govtrack_id': member.get('govtrack_id', None),
+        'cspan_id': member.get('cspan_id', None),
+        'votesmart_id': member.get('votesmart_id', None),
+        'icpsr_id': member.get('icpsr_id', None),
+        'crp_id': member.get('crp_id', None),
+        'google_entity_id': member.get('google_entity_id', None),
+        'fec_candidate_id': member.get('fec_candidate_id', None),
+        'url': member.get('url', None),
+        'rss_url': member.get('rss_url', None),
+        'contact_form': member.get('contact_form', None),
+        'in_office': member.get('in_office', None),
+        'cook_pvi': member.get('cook_pvi', None),
+        'dw_nominate': member.get('dw_nominate', None),
+        'ideal_point': member.get('ideal_point', None),
+        'seniority': member.get('seniority', None),
+        'next_election': member.get('next_election', None),
+        'total_votes': member.get('total_votes', None),
+        'missed_votes': member.get('missed_votes', None),
+        'total_present': member.get('total_present', None),
+        'last_updated': member.get('last_updated', None),
+        'ocd_id': member.get('ocd_id', None),
+        'office': member.get('office', None),
+        'phone': member.get('phone', None),
+        'fax': member.get('fax', None),
+        'state': member.get('state', None),
+        'district': member.get('district', None),
+        'missed_votes_pct': member.get('missed_votes_pct', None),
+        'votes_with_party_pct': member.get('votes_with_party_pct', None),
+        'votes_against_party_pct': member.get('votes_against_party_pct', None),
+        'at_large': member.get('at_large', None),
+        'geoid': member.get('geoid', None),
+        'id': int(id)
+        }
     
         result = connectToMySQL(cls.my_db).query_db(query, data)
         print(result)
