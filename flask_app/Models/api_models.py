@@ -8,7 +8,7 @@ import os
 # Initialize the ApifyClient with your API token
 client = ApifyClient(apify_api_key)
 
-def twitter_scrape(official, date, limit=500):
+def twitter_scrape(official, date, limit=500, id=None):
     output = []
 # Prepare the Actor input
     run_input = {
@@ -27,10 +27,29 @@ def twitter_scrape(official, date, limit=500):
 # Fetch and print Actor results from the run's dataset (if there are any)
     for item in client.dataset(run["defaultDatasetId"]).iterate_items():
         try:
+            item['official_id'] = id
             output.append(item)
         except UnicodeEncodeError:
             continue
     return output
+
+# storing old code for reference
+    # for item in client.dataset(run["defaultDatasetId"]).iterate_items():
+    #     try:
+    #         print(item)
+    #         post_id = Post.create_post(item, id)
+    #         print(f"post created with ID: {post_id}")
+    #         if len(item['images']) > 0:
+    #             print(f"Adding images to post for {item['username']}")
+    #             for image in item['images']:
+    #                 image_data = {'image_url': image}
+    #                 Post.add_post_images(image_data, post_id)
+    #                 print(f"Image added to post")
+    #     except Exception as e:
+    #         return {"success": False, "member_id": id, "error": str(e)}
+    #     except UnicodeEncodeError:
+    #         continue
+    # return output
 
 def create_official_and_posts(officials_list):
     for official_data in officials_list:        
