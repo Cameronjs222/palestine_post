@@ -24,22 +24,22 @@ class Post():
 
     @classmethod
     def create_post(cls, data, official_id):
+        print("creating post")
         query = """
-        INSERT INTO post (official_id, post_avatar, url, query, post_id, text, username, fullname, timestamp, replies, reposts, likes, quotes)
-        VALUES (%(official_id)s, %(post_avatar)s, %(url)s, %(query)s, %(post_id)s, %(text)s, %(username)s, %(fullname)s, %(timestamp)s, %(replies)s, %(reposts)s, %(likes)s, %(quotes)s)
+        INSERT INTO post (official_id,tweet_id ,tweet_avatar, url, query, text, username, fullname, timestamp, replies, likes, quotes)
+        VALUES (%(official_id)s,%(tweet_id)s ,%(tweet_avatar)s, %(url)s, %(query)s, %(text)s, %(username)s, %(fullname)s, %(timestamp)s, %(replies)s, %(likes)s, %(quotes)s)
         """
         data = {
             'official_id': official_id,
-            'post_avatar': data['tweet_avatar'],
-            'url': data['post_url'],
+            'tweet_id': data['tweet_id'],
+            'tweet_avatar': data['tweet_avatar'],
+            'url': data['url'],
             'query': data['query'],
-            'post_id': data['post_id'],
             'text': data['text'],
             'username': data['username'],
             'fullname': data['fullname'],
             'timestamp': data['timestamp'],
             'replies': data['replies'],
-            'reposts': data['reposts'],
             'likes': data['likes'],
             'quotes': data['quotes']
 
