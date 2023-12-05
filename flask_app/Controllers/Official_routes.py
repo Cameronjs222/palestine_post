@@ -66,7 +66,6 @@ def get_congress():
 
 @app.route('/official/twitter/update', methods=['POST', 'GET'])
 def update_twitter():
-    print(request.form)
     date = request.form['date']
     limit = int(request.form['limit'])
     congress_limit = int(request.form['congress_limit'])
@@ -77,8 +76,25 @@ def update_twitter():
         with ThreadPoolExecutor() as executor:
             # Use list comprehension to submit tasks
             futures = [
-                executor.submit(process_member, member, date, limit) for member in full_congress
+                executor.submit(twitter_scrape, member.twitter_account, date, limit, member.id) for member in full_congress
             ]
+
+            # Use as_completed to iterate over completed futures
+            for future in as_completed(futures):
+                    # Retrieve the result of the completed future
+                    result = future.result()
+                    print(result)
+                    # Save the result to the database or perform other actions
+                    for post in result:
+                        post_id = Post.create_post(post, post['official_id'])
+                        print(f"post created with ID: {post_id}")
+    
+                        if len(post.get('images', [])) > 0:
+                            for image in post['images']:
+                                image_data = {'image_url': image}
+                                Post.add_post_images(image_data, post_id)
+
+
 
     return "done"
 
