@@ -18,6 +18,8 @@ def twitter_scrape(official, date, limit=500, id=None):
             "user_info": "user info and replying info",
             "max_attempts": 5,
             "newer_than": date,
+            "older_than": "2023-10-06",
+
             "from_user": [official]
         }
 
