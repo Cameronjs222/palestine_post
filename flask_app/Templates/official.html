@@ -16,8 +16,32 @@
             <div class="bg-dark official_user_info official_sidebar text-light">
         
                 <div class="mt-3">
-                    <span>{{official.first_name}}</span>
-                    <span>{{official.last_name}}</span>
+                    <div>
+                        <span>{{official.first_name}}</span>
+                        <span>{{official.last_name}},</span>
+                        <span>{{official.party}}</span>
+                    </div>
+                    <div>
+                        <span>{{official.title}}</span>
+                        <span>for the state of {{official.state}}</span>
+                    </div>
+                    <div>
+                        <span>
+                            Phone:
+                        </span>
+                        <span>{{official.phone}}</span>
+                    </div>
+                    <div>
+                        {% if official.in_office == 1 %}
+                        <span>Currently in office</span>
+                        {% else %}
+                        <span>Not in office</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <span>Next election:</span>
+                        <span>{{official.next_election}}</span>
+                    </div>
                 </div>
                 <div class="sidebar_links">
                     <h2>Links</h2>
