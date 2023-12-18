@@ -1,0 +1,27 @@
+[{
+  "tweet_avatar": "https://pbs.twimg.com/profile_images/621070518834212864/ikIQKvUq_400x400.jpg",
+  "tweet_id": "1610292888688017409",
+  "url": "https://twitter.com/SenShelby/status/1610292888688017409",
+  "query": " until:2023-10-06 since:2023-01-01  -filter:nativeretweets from:SenShelby",
+  "text": "Thank you, Alabama, for allowing me the tremendous opportunity to represent you for 36 years in the U.S. Senate and eight years in the U.S. House. Throughout my career, I’ve strived to strengthen our nation and improve our great state. It’s been an honor. I wish you all the best.",
+  "username": "@SenShelby",
+  "fullname": "Richard Shelby",
+  "timestamp": "2023-01-03 15:11:00+00:00",
+  "language": null,
+  "in_reply_to": [],
+  "replies": 277,
+  "retweets": 91,
+  "quotes": 22,
+  "images": [
+    "https://pbs.twimg.com/media/Fljo1ajXEAAWRJ0.jpg?format=jpg&name=medium"
+  ],
+  "likes": 986,
+  "banner_image": null,
+  "total_tweets": null,
+  "num_following": null,
+  "num_followers": null,
+  "total_likes": null,
+  "tweet_links": [],
+  "tweet_hashtags": [],
+  "tweet_mentions": []
+}]

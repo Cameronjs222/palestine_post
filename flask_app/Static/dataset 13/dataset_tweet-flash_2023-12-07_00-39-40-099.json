@@ -1,0 +1,27 @@
+[{
+  "tweet_avatar": "https://pbs.twimg.com/profile_images/907699267170656256/PlbYkRah_400x400.jpg",
+  "tweet_id": "1609559890523029505",
+  "url": "https://twitter.com/RepSteveChabot/status/1609559890523029505",
+  "query": " until:2023-10-06 since:2023-01-01  -filter:nativeretweets from:RepSteveChabot",
+  "text": "Wishing you and your family a happy new year! May you have a wonderful 2023.",
+  "username": "@RepSteveChabot",
+  "fullname": "Archive: Rep. Steve Chabot",
+  "timestamp": "2023-01-01 14:39:00+00:00",
+  "language": null,
+  "in_reply_to": [],
+  "replies": 0,
+  "retweets": 0,
+  "quotes": 3,
+  "images": [
+    "https://pbs.twimg.com/media/FlZOLp3XgAYoPrv.jpg?format=jpg&name=medium"
+  ],
+  "likes": 9,
+  "banner_image": null,
+  "total_tweets": null,
+  "num_following": null,
+  "num_followers": null,
+  "total_likes": null,
+  "tweet_links": [],
+  "tweet_hashtags": [],
+  "tweet_mentions": []
+}]

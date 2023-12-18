@@ -1,0 +1,27 @@
+[{
+  "tweet_avatar": "https://pbs.twimg.com/profile_images/1539418113908822017/5I3BJhTM_400x400.jpg",
+  "tweet_id": "1609566018590109705",
+  "url": "https://twitter.com/repmayraflores/status/1609566018590109705",
+  "query": " until:2023-10-06 since:2023-01-01  -filter:nativeretweets from:repmayraflores",
+  "text": "",
+  "username": "@repmayraflores",
+  "fullname": "Congresswoman Mayra Flores",
+  "timestamp": "2023-01-01 15:03:00+00:00",
+  "language": null,
+  "in_reply_to": [],
+  "replies": 23,
+  "retweets": 14,
+  "quotes": 2,
+  "images": [
+    "https://pbs.twimg.com/media/FlZTw4JXEAQhSuJ.jpg?format=jpg&name=medium"
+  ],
+  "likes": 79,
+  "banner_image": null,
+  "total_tweets": null,
+  "num_following": null,
+  "num_followers": null,
+  "total_likes": null,
+  "tweet_links": [],
+  "tweet_hashtags": [],
+  "tweet_mentions": []
+}]

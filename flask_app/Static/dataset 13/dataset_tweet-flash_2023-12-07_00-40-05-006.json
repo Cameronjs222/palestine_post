@@ -1,0 +1,56 @@
+[{
+  "tweet_avatar": "https://pbs.twimg.com/profile_images/1500846733408063489/3XYDK6OK_400x400.jpg",
+  "tweet_id": "1610274782972370944",
+  "url": "https://twitter.com/RepAndyLevin/status/1610274782972370944",
+  "query": " until:2023-10-06 since:2023-01-01  -filter:nativeretweets from:RepAndyLevin",
+  "text": "I can’t express enough how deeply grateful I am to have represented Michigan’s 9th district in Congress the last four years. Though my term has concluded, please keep in touch with me on here or @Andy_Levin. Onward!",
+  "username": "@RepAndyLevin",
+  "fullname": "Rep. Andy Levin",
+  "timestamp": "2023-01-03 14:00:00+00:00",
+  "language": null,
+  "in_reply_to": [],
+  "replies": 32,
+  "retweets": 20,
+  "quotes": 7,
+  "images": [
+    "https://pbs.twimg.com/media/FkuSumtX0AABynh.jpg?format=jpg&name=medium"
+  ],
+  "likes": 325,
+  "banner_image": null,
+  "total_tweets": null,
+  "num_following": null,
+  "num_followers": null,
+  "total_likes": null,
+  "tweet_links": [],
+  "tweet_hashtags": [],
+  "tweet_mentions": [
+    "Andy_Levin"
+  ]
+},
+{
+  "tweet_avatar": "https://pbs.twimg.com/profile_images/1500846733408063489/3XYDK6OK_400x400.jpg",
+  "tweet_id": "1609968218856210440",
+  "url": "https://twitter.com/RepAndyLevin/status/1609968218856210440",
+  "query": " until:2023-10-06 since:2023-01-01  -filter:nativeretweets from:RepAndyLevin",
+  "text": "GOP may be so reflexively anti-union that they want to strip their employees of the chance to form one—but it's not that easy. Under the Congressional Accountability Act, rights that have been implemented can't simply be taken away absent new legislation to change the Act itself.",
+  "username": "@RepAndyLevin",
+  "fullname": "Rep. Andy Levin",
+  "timestamp": "2023-01-02 17:41:00+00:00",
+  "language": null,
+  "in_reply_to": [
+    "@emilybrooksnews"
+  ],
+  "replies": 17,
+  "retweets": 218,
+  "quotes": 20,
+  "images": [],
+  "likes": 861,
+  "banner_image": null,
+  "total_tweets": null,
+  "num_following": null,
+  "num_followers": null,
+  "total_likes": null,
+  "tweet_links": [],
+  "tweet_hashtags": [],
+  "tweet_mentions": []
+}]
