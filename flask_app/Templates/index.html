@@ -41,6 +41,16 @@
             <input type="submit" value="test">
         </form>
     </div>
+
+    <div class="test">
+        <p>Get new tweets</p>
+        <form action="../official/twitter/list" method="post">
+            <input type="date" name="date" placeholder="date">
+            <input type="number" name="limit" placeholder="limit">
+            <textarea name="list" id="" cols="30" rows="10"></textarea>
+            <input type="submit" value="test">
+        </form>
+    </div>
     {% if full_congress %}
     <p>full_congress</p>
     {% else %}
