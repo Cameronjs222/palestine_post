@@ -216,10 +216,10 @@ class Official():
         }
 
         results = connectToMySQL(cls.my_db).query_db(query, data)
-        print(results)
+        # print(results)
         officials = []
         if results:
-            print("found officials")
+            # print("found officials")
             for official_data in results:
                 official = Official(
                     id= official_data.get('id', None),
@@ -270,7 +270,7 @@ class Official():
                     geoid= official_data.get('geoid', None)
                     )
                 officials.append(official)
-            print(officials, " officials")
+            # print(officials, " officials")
             return officials
         else:
             return False
@@ -286,9 +286,58 @@ class Official():
 
         results = connectToMySQL(cls.my_db).query_db(query, data)
         officials = []
-        for official in results:
+        for official_data in results:
             try:
-                official = Official(id=official['id'], first_name=official['first_name'], last_name=official['last_name'], twitter_account=official['twitter_handle'], state=official['state'], district=official['district'])
+                official = Official(
+                    id= official_data.get('id', None),
+                    official_id= official_data.get('official_id', None),
+                    title= official_data.get('title', None),
+                    short_title= official_data.get('short_title', None),
+                    api_uri= official_data.get('api_uri', None),
+                    first_name= official_data.get('first_name', None),
+                    middle_name= official_data.get('middle_name', None),
+                    last_name= official_data.get('last_name', None),
+                    suffix= official_data.get('suffix', None),
+                    date_of_birth= official_data.get('date_of_birth', None),
+                    gender= official_data.get('gender', None),
+                    party= official_data.get('party', None),
+                    twitter_account= official_data.get('twitter_handle', None),
+                    facebook_account= official_data.get('facebook_account', None),
+                    youtube_account= official_data.get('youtube_account', None),
+                    govtrack_id= official_data.get('govtrack_id', None),
+                    cspan_id= official_data.get('cspan_id', None),
+                    votesmart_id= official_data.get('votesmart_id', None),
+                    icpsr_id= official_data.get('icpsr_id', None),
+                    crp_id= official_data.get('crp_id', None),
+                    google_entity_id= official_data.get('google_entity_id', None),
+                    fec_candidate_id= official_data.get('fec_candidate_id', None),
+                    url= official_data.get('url', None),
+                    rss_url= official_data.get('rss_url', None),
+                    contact_form= official_data.get('contact_form', None),
+                    in_office= official_data.get('in_office', None),
+                    cook_pvi= official_data.get('cook_pvi', None),
+                    dw_nominate= official_data.get('dw_nominate', None),
+                    ideal_point= official_data.get('ideal_point', None),
+                    seniority= official_data.get('seniority', None),
+                    next_election= official_data.get('next_election', None),
+                    total_votes= official_data.get('total_votes', None),
+                    missed_votes= official_data.get('missed_votes', None),
+                    total_present= official_data.get('total_present', None),
+                    last_updated= official_data.get('last_updated', None),
+                    ocd_id= official_data.get('ocd_id', None),
+                    office= official_data.get('office', None),
+                    phone= official_data.get('phone', None),
+                    fax= official_data.get('fax', None),
+                    state= official_data.get('state', None),
+                    district= official_data.get('district', None),
+                    missed_votes_pct= official_data.get('missed_votes_pct', None),
+                    votes_with_party_pct= official_data.get('votes_with_party_pct', None),
+                    votes_against_party_pct= official_data.get('votes_against_party_pct', None),
+                    at_large= official_data.get('at_large', None),
+                    geoid= official_data.get('geoid', None)
+                    )
+                print(official.first_name + " " + official.last_name)
+                print(official.phone)
                 officials.append(official)
             except:
                 continue
@@ -322,7 +371,7 @@ class Official():
         officials = []
         for result in results:
             official = Official(id=result['id'], first_name=result['first_name'], last_name=result['last_name'], twitter_account=result['twitter_handle'], state=result['state'], district=result['district'])
-            print(official.id)
+            # print(official.id)
             officials.append(official)
 
         return officials
@@ -409,6 +458,7 @@ class Official():
         }
 
         result = connectToMySQL(cls.my_db).query_db(query, data)
+        print('running query' + query)
         print(result, "result")
         return result
     
