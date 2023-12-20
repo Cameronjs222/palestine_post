@@ -15,12 +15,23 @@
         <h2>Your state Senators</h2>
     </div>
     {% for official in officials %}
-    {% if official.state|length < 4 %}
-    <a href="../states/{{official.state}}" class="card_link" target="_blank">
-        <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
+    {% if not official.district %}
+    <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
+        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
             <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
-            <div class="card-header bg-dark text-light is_link">{{ official.state }}</div>
-            <div class="card-body bg-light text-dark">
+                
+
+            <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
+                <div>
+                    {{ official.first_name }} {{ official.last_name }}</div>
+                    <div>
+                        {% if official.in_office > 0 %}
+                        <div class="text-success">In office</div>
+                        {% else %}
+                        <div class="text-danger">Not in office</div>
+                        {% endif %}
+                    </div>
+                </div>            <div class="card-body bg-light text-dark">
                 <p class="card-text is_link">This is a test</p>
                 <div class="text-end">
             </div>
@@ -32,12 +43,22 @@
     <div>
         <h2>Your state Representatives</h2>
     {% for official in officials %}
-    {% if official.state|length > 3 %}
+    {% if official.district %}
     <!-- create link to officials/official.id -->
-    <a href="../officials/{{official.id}}" class="card_link" target="_blank">
-        <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
+    <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
+        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
             <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
-            <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{ official.last_name }}</div>
+            <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
+                <div>
+                    {{ official.first_name }} {{ official.last_name }}</div>
+                    <div>
+                        {% if official.in_office > 0 %}
+                        <div class="text-success">In office</div>
+                        {% else %}
+                        <div class="text-danger">Not in office</div>
+                        {% endif %}
+                    </div>
+                </div>
             <div class="card-body bg-light text-dark">
                 <p class="card-text is_link">This is a test</p>
                 <div class="text-end">
