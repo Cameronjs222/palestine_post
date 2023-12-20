@@ -43,17 +43,24 @@ def get_congress():
         chamber = request.form['select_chamber']
         full_congress = get_congress_members(congress, chamber)
         print(full_congress)
+        old_list ={}
+        new_list = {}
         if full_congress:
             for member in full_congress['results'][0]['members']:
                 member['last_updated'] = member['last_updated'][:10]
                 official_id = Official.find_officials_by_name(member['first_name'], member['last_name'])
                 if official_id:
+                    old_list[f"{member['first_name']} {member['last_name']}"] = member['state']
                     print(official_id)
                     for member_id in official_id:
                         Official.update_official(member, member_id.id)
                 else:
-                    print(member)
                     Official.create_official(member)
+                    new_list[f"{member['first_name']} {member['last_name']}"] = member['party']
+        print(old_list)
+        print('^oldlist^')
+        print(new_list)
+        print('^newlist^')
         return redirect(f'/admin?congress={congress}&chamber={chamber}&full_congress=True')
     except KeyError as e:
         print("KeyError " + str(e))
@@ -65,7 +72,7 @@ def get_congress():
         return redirect('/admin?full_congress=False')
 
 @app.route('/official/twitter/update', methods=['POST', 'GET'])
-def update_twitter():
+def new_twitter():
     date = request.form['date']
     limit = int(request.form['limit'])
     congress_limit = int(request.form['congress_limit'])
@@ -77,6 +84,43 @@ def update_twitter():
             # Use list comprehension to submit tasks
             futures = [
                 executor.submit(twitter_scrape, member.twitter_account, date, limit, member.id) for member in full_congress
+            ]
+
+            # Use as_completed to iterate over completed futures
+            for future in as_completed(futures):
+                    # Retrieve the result of the completed future
+                    result = future.result()
+                    print(result)
+                    # Save the result to the database or perform other actions
+                    for post in result:
+                        post_id = Post.create_post(post, post['official_id'])
+                        print(f"post created with ID: {post_id}")
+    
+                        if len(post.get('images', [])) > 0:
+                            for image in post['images']:
+                                image_data = {'image_url': image}
+                                Post.add_post_images(image_data, post_id)
+
+
+
+    return "done"
+
+@app.route('/official/twitter/list', methods=['POST', 'GET'])
+def update_twitter():
+    date = request.form['date']
+    limit = int(request.form['limit'])
+    list = request.form['list']
+    lines = list.split('\r\n')
+    list_array = [line.split(' ') for line in lines]
+    print(list_array[0][1])
+
+
+    if list_array:
+        # Use ThreadPoolExecutor to parallelize API calls
+        with ThreadPoolExecutor() as executor:
+            # Use list comprehension to submit tasks
+            futures = [
+                executor.submit(twitter_scrape, list_item[1], date, limit, list_item[0]) for list_item in list_array
             ]
 
             # Use as_completed to iterate over completed futures
