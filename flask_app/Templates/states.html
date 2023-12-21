@@ -8,69 +8,97 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <div class="">
-        <h1>Find your representatives </h1>
-    </div>
-    <div>
-        <h2>Your state Senators</h2>
-    </div>
-    {% for official in officials %}
-    {% if not official.district %}
-    <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
-        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
-            <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
-                
+    <div class="d-flex flex-column align-content-center">
+        <div class="reps">
+            <div>
+                <button class="btn btn-success btn-lg state-button">
+                    <a href="../" class="link-light">Home</a>
+                </button>
+            </div>
+            <h1>Find your representatives </h1>
+            <div class="dropdown my_dropdown">
+                <button class="btn btn-success btn-lg dropdown-toggle state-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Officials
+                </button>
+                <div id="official_dropdown">
 
-            <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
-                <div>
-                    {{ official.first_name }} {{ official.last_name }}</div>
-                    <div>
-                        {% if official.in_office > 0 %}
-                        <div class="text-success">In office</div>
-                        {% else %}
-                        <div class="text-danger">Not in office</div>
-                        {% endif %}
-                    </div>
-                </div>            <div class="card-body bg-light text-dark">
-                <p class="card-text is_link">This is a test</p>
-                <div class="text-end">
-            </div>
-            </div>
-        </div>
-    </a>
-    {% endif %}
-    {% endfor %}
-    <div>
-        <h2>Your state Representatives</h2>
-    {% for official in officials %}
-    {% if official.district %}
-    <!-- create link to officials/official.id -->
-    <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
-        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
-            <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
-            <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
-                <div>
-                    {{ official.first_name }} {{ official.last_name }}</div>
-                    <div>
-                        {% if official.in_office > 0 %}
-                        <div class="text-success">In office</div>
-                        {% else %}
-                        <div class="text-danger">Not in office</div>
-                        {% endif %}
-                    </div>
+                    <ul class="dropdown-menu">
+                        <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+                        
+                        {% for official in officials %}
+                        <li><a class="dropdown-item" href="officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            <div class="card-body bg-light text-dark">
-                <p class="card-text is_link">This is a test</p>
-                <div class="text-end">
-            </div>
             </div>
         </div>
-    </a>
-    {% endif %}
-{% endfor %}
-</body>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <div class="ms-4">
+            <h2>{{ state }} state Senators</h2>
+            <div class="sen-box col-7">
+
+                {% for official in officials %}
+                {% if not official.district %}
+                <div class="card border-2 border-danger mb-3 gap-3 bg-light" style=" position: relative;">
+                    <a href="../officials/{{official.id}}" class="card_link" target="_blank">
+                        <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
+                        
+                        
+                        <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
+                            <div>
+                                {{ official.first_name }} {{ official.last_name }}, {{ official.party }} Senator for {{ official.state }}
+                            </div>
+                            <div>
+                            </div>
+                        </div>
+                        <div class="card-body bg-light text-dark">
+                            <p class="card-text is_link">This is a test</p>
+                            <div class="text-end">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+            <div class="ms-4">
+                <h2>{{state}} Representatives</h2>
+                
+                <div class="sen-box">
+
+                    {% for official in officials %}
+                    {% if official.district %}
+                    <div class="card border-2 border-danger bg-light" style="max-width: 20rem;">
+                        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
+                            <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
+                            
+                            
+                            <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
+                                <div>
+                                    {{ official.first_name }} {{ official.last_name }}, {{ official.party }} Senator for {{ official.state }}
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light text-dark">
+                                {% if official.gender == 'M' %}
+                                <p class="card-text is_link">{{official.first_name}} {{official.last_name}} votes with her party {{official.votes_with_party_pct}}% of the time, see what she has to say about palestine.</p>
+                                {% elif official.gender == 'F' %}
+                                <p class="card-text is_link">{{official.first_name}} {{official.last_name}} votes with her party {{official.votes_with_party_pct}}% of the time, see what she has to say about palestine.</p>
+                                {% endif %}
+                                <div class="text-end">
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+                </div>
+                </body>
+                <script src="{{ url_for('static', filename='script.js') }}"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </html>
