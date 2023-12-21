@@ -33,7 +33,7 @@ def index():
 def show_state(state):
     officials = Official.find_officials_by_state(state)
     print(officials)
-    return render_template("states.html", officials = officials)
+    return render_template("states.html", officials = officials, state = state)
 
 @app.route('/official/congress/get', methods=['POST', 'GET'])
 def get_congress():
