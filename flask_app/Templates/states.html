@@ -16,19 +16,36 @@
                 </button>
             </div>
             <h1>Find your representatives </h1>
-            <div class="dropdown my_dropdown">
-                <button class="btn btn-success btn-lg dropdown-toggle state-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Officials
-                </button>
-                <div id="official_dropdown">
 
-                    <ul class="dropdown-menu">
-                        <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+            <div class="state-page-dropdowns">
+                <div class="dropdown my_dropdown">
+                    <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select new state
+                    </button>
+                    <div id="state_dropdown">
+
+                        <ul class="dropdown-menu">
+                            <input type="text" placeholder="Search.." id="state_input" onkeyup="filterFunction('state_dropdown', 'state_input')">
+                            {% for state in all_states %}
+                            <li><a class="dropdown-item" href="states/{{state}}">{{state}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="dropdown my_dropdown">
+                    <button class="btn btn-success btn-lg dropdown-toggle state-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{state}} Officials
+                    </button>
+                    <div id="official_dropdown">
                         
-                        {% for official in officials %}
-                        <li><a class="dropdown-item" href="officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
-                        {% endfor %}
-                    </ul>
+                        <ul class="dropdown-menu">
+                            <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+                            
+                            {% for official in officials %}
+                            <li><a class="dropdown-item" href="officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
