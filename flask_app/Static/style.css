@@ -37,7 +37,6 @@ html {
     align-items: center;
     gap: 10px;
     width: 100%;
-    padding-right: -10px;
 }
 
 .official_sidebar {
@@ -71,7 +70,7 @@ html {
 .reps {
         text-align: center;
         height: 10vh;
-        width: 100vw;
+        width: 100%;
 
         box-shadow: 0px 0px 50px red;
         display: flex;
@@ -81,6 +80,10 @@ html {
         color: white;
         margin: 0 0 0 0;
         padding: 0;
+    }
+
+    .home{
+        justify-content: center;
     }
 
 
@@ -101,6 +104,10 @@ html {
         margin: 0;
         padding: 0;
         gap: 10px;
+    }
+
+    .sen-box div {
+        width: 100%;
     }
 
     .state-button{
@@ -214,6 +221,12 @@ html {
     gap: 20px;
     text-align: center;
 }
+
+.front-page-box button {
+    margin: 10px;
+}
+
+
 #myInput {
     box-sizing: border-box;
     background-image: url('searchicon.png');
@@ -229,7 +242,158 @@ html {
     outline: 3px solid #ddd;
 }
 
-my_dropdown button {
-    background-color: red;
-    color: white;
+.card_item {
+    max-width:40rem; 
+    position: relative;
+}
+
+#phone_left_div {
+    display: none;
+}
+@media only screen and (max-width: 450px)  {
+    .state-page-dropdowns {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .reps button {
+        font-size: xx-small;
+    }
+
+    .reps h1 {
+        font-size: smaller;
+        margin: 0 10px 0 0;
+    }
+
+    .state-button
+    {
+        margin: 0 1rem;
+    }
+    .official_sidebar {
+        position: relative;
+        width: 10rem;
+        background-color: white;
+    }
+
+    .card_item {
+        max-width: 15rem;
+        position: relative;
+        right: 10px;
+    }
+
+    #sortDropdown {
+        font-size:xx-small;
+        position: relative;
+        right: 10px;
+    }
+
+    .official_dropdown {
+        display: none;
+        }
+
+    .official_dropdown_button {
+        font-size: xx-small;
+    }
+    .official_header_dropdowns {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+    .official_left_div {
+        display: none;
+    }
+
+    .official_header h1 {
+        margin: 0 0 0 10px;
+    }
+
+    #phone_left_div {
+        display: block;
+    }
+
+    .official_contact_info {
+        color: black;
+    }
+
+    .sidebar_links {
+        margin: 0 0 0 0;
+        padding: 0
+        }
+}
+
+.front-page-box h2{
+    font-size: 1rem;
+    width: 75%;
+    margin: auto;
+
+}
+
+.front-page-box button{
+    font-size: xx-small;
+}
+
+@media only screen and (max-width: 1000px)  {
+    .official_sidebar {
+        position: relative;
+        width: 10rem;
+        background-color: white;
+    }
+
+    .card_item {
+        max-width: 40rem;
+        position: relative;
+        right: 10px;
+    }
+
+    #sortDropdown {
+        font-size:xx-small;
+        position: relative;
+        right: 10px;
+    }
+
+    .official_dropdown {
+        display: none;
+        }
+
+    .official_dropdown_button {
+        font-size: xx-small;
+    }
+    .official_header_dropdowns {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding-right: -10px;
+    }
+    .official_left_div {
+        display: none;
+    }
+
+    .official_header {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+    }
+
+    #phone_left_div {
+        display: block;
+    }
+
+    .official_contact_info {
+        color: black;
+    }
+
+    .sidebar_links {
+        margin: 0 0 0 0;
+        padding: 0
+        }
 }
