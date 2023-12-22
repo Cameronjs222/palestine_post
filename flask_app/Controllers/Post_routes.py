@@ -6,12 +6,22 @@ from flask_app.Models.api_models import twitter_scrape, get_congress_members, cr
 
 @app.route('/officials/<int:official_id>')
 def show_official(official_id):
+    officials = Official.find_all_officials()
+    all_states_set = set()
+
+    for official in officials:
+        official_state = official.state[:2]  # Using slicing for the first two characters
+        if (official_state == 'US'):
+            continue
+        all_states_set.add(official_state)
+
+        all_states_list = sorted(list(all_states_set))
     official = Official.find_official_by_id(official_id)
     print(official.first_name)
     posts = Post.get_posts_by_id(official_id)
     if posts == False:
         return redirect('/noComment/' + str(official_id))
-    return render_template('official.html', posts = posts, official = official)
+    return render_template('official.html', posts = posts, official = official, all_states = all_states_list, officials = officials)
 
 @app.route('/noComment/<int:official_id>')
 def no_comment(official_id):
