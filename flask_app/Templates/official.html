@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
 <body class="">
@@ -14,8 +15,12 @@
 
         <div class="official_left_div">
             <div class="bg-dark official_user_info official_sidebar text-light">
-        
-                <div class="mt-3">
+                <a href="../" class="link-light">
+                    <button class="btn btn-success btn-lg official-button">
+                            Home
+                        </button>
+                    </a>
+                <div class="mt-3 official_contact_info">
                     <div>
                         <span>{{official.first_name}}</span>
                         <span>{{official.last_name}},</span>
@@ -25,6 +30,13 @@
                         <span>{{official.title}}</span>
                         <span>for the state of {{official.state}}</span>
                     </div>
+
+                    {% if official.district %}
+                    <div>
+                        <span>District:</span>
+                        <span>{{official.district}}</span>
+                    </div>
+                    {% endif %}
                     <div>
                         <span>
                             Phone:
@@ -42,142 +54,196 @@
                         <span>Next election:</span>
                         <span>{{official.next_election}}</span>
                     </div>
+                    <div>
+                        <span>
+                            Contact form:
+                        </span>
+                        {% if official.contact_form %}
+                        <span>
+                            <a href="{{official.contact_form}}" target="_blank" class="link-success">Link</a>
+                        </span>
+                        {% else %}
+                        <span>
+                            None
+                        </span>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="sidebar_links">
-                    <h2>Links</h2>
-                    {% if official.twitter_account %}
-                    <div class="official_user_info_item">
-                        <a href="https://twitter.com/{{ official.twitter_account }}" target="_blank">
-                            <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;">
-                        </a>
-                    </div>
-                    {% else %}
-                    <div class="official_user_info_item">
-                        <a href="#">
-                            <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;" onclick="alert('coming soon')">
-                        </a>
-                    </div>
-                    {% endif %}
-                    {% if official.facebook_account %}
-                    <div class="official_user_info_item">
-                        <a href="https://facebook.com/{{ official.facebook_account }}" target="_blank">
-                            <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;">
-                        </a>
-                    </div>
-                    {% else %}
-                    <div id="facebook_icon" class="official_user_info_item">
-                        <a href="#" id="facebook_btn">
-                            <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;" onclick="alertFunction(
-                                btnId='facebook_icon', 
-                                buttonTitle='Facebook', 
-                                official='{{official.first_name}} {{official.last_name}}',
-                                // alertDiv='FacebookAlertsContainer'
-                                )">
-            </a>
+            </div>
         </div>
-        <div id="alertsContainer">
-            
-        </div>
-        {% endif %}
-        {% if official.youtube_account %}
-        <div class="official_user_info_item">
-            <a href="https://youtube.com/{{ official.youtube_account }}" target="_blank">
-                <img src="{{ url_for('static', filename='youtube.png') }}" style="max-width: 50%;">
-            </a>
-        </div>
-        {% else %}
-        <div id="youtube_icon" class="official_user_info_item">
-            <a href="#" id="youtube_btn">
-                <img src="{{ url_for('static', filename='youtube.png') }}" style="max-width: 50%;" onclick="alertFunction(
-                    btnId='youtube_icon', 
-                    buttonTitle='youtube', 
-                    official='{{official.first_name}} {{official.last_name}}',
-                    // alertDiv='FacebookAlertsContainer'
-                    )">
-        </a>
-    </div>
-    <div id="alertsContainer">
-        
-    </div>
-    {% endif %}
-    {% if official.youtube_account %}
-    <div class="official_user_info_item">
-        <a href="{{ official.url }}" target="_blank">
-            <img src="{{ url_for('static', filename='website.png') }}" style="max-width: 50%;">
-        </a>
-    </div>
-    {% else %}
-    <div id="website_icon" class="official_user_info_item">
-        <a href="#" id="website_btn">
-            <img src="{{ url_for('static', filename='website.png') }}" style="max-width: 50%;" onclick="alertFunction(
-                btnId='website_icon', 
-                buttonTitle='website', 
-                official='{{official.first_name}} {{official.last_name}}',
-                )">
-    </a>
-</div>
-<div id="alertsContainer">
-    
-</div>
-{% endif %}
-</div>
-<DIV></DIV>
-<DIV></DIV>
-<DIV></DIV>
-
-</div>
-</div>
 
         <div class="official_center_div">
-            <div class="official_header">
+            <div class="official_header mt-3">
                 <h1>
                     <span>{{official.first_name}}</span>
                     <span>{{official.last_name}}</span>'s stance on palestine
                 </h1>
-            </div>
-<!-- Add this dropdown button somewhere in your HTML, preferably above the post cards -->
-<div class="dropdown">
-    <button class="btn btn-success dropdown-toggle ms-4" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        Sort by
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-        <li><a class="dropdown-item" href="?sort=timestamp">Latest</a></li>
-        <li><a class="dropdown-item" href="?sort=likes">Most likes</a></li>
-        <li><a class="dropdown-item" href="?sort=replies">Most replies</a></li>
-        <li><a class="dropdown-item" href="?sort=retweets">Most retweets</a></li>
-    </ul>
-</div>
+                <!-- Add this dropdown button somewhere in your HTML, preferably above the post cards -->
+                <div class="official_header_dropdowns">
 
-<!-- Modify your posts loop to handle the sorting parameter -->
-<div class="official_cards">
-    {% set sort_criteria = request.args.get('sort', default='timestamp') %}
-    {% set sorted_posts = posts | sort(attribute=sort_criteria, reverse=True) %}
-
-    {% for post in sorted_posts %}
-    <a href="{{ post.url }}" class="card_link" target="_blank">
-        <div class="card border-2 border-danger mb-3 gap-3 bg-light" style="max-width:40rem; position: relative;">
-            <img src="{{ post.post_avatar }}" class='user_avatar' alt="">
-            {% if post.username[1:] == post.query[23:] %}
-                <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{ official.last_name }}'s tweet</div>
-            {% else %}
-                <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{official.last_name}} retweeted {{post.username}}</div>
-            {% endif %}
-                <div class="card-body bg-light text-dark">
-                    <p class="card-text is_link">{{ post.text }}</p>
-                    <div class="text-end">
-                        <h6 class="card-subtitle text-body-secondary align-self-end is_link"> {{ post.timestamp.strftime("%B %d, %Y") }}</h6>
+                    <div class="dropdown">
+                        <button class="btn btn-success dropdown-toggle ms-4" type="button" id="sortDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort by
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                        <li><a class="dropdown-item" href="?sort=timestamp">Latest</a></li>
+                        <li><a class="dropdown-item" href="?sort=likes">Most likes</a></li>
+                        <li><a class="dropdown-item" href="?sort=replies">Most replies</a></li>
+                        <li><a class="dropdown-item" href="?sort=retweets">Most retweets</a></li>
+                    </ul>
+                </div>
+                <div class="state-page-dropdowns">
+                    <div class="dropdown my_dropdown">
+                        <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select new state
+                        </button>
+                        <div id="state_dropdown">
+                            
+                            <ul class="dropdown-menu">
+                                <input type="text" placeholder="Search.." id="state_input" onkeyup="filterFunction('state_dropdown', 'state_input')">
+                                {% for state in all_states %}
+                                <li><a class="dropdown-item" href="../states/{{state}}">{{state}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown my_dropdown">
+                        <button class="btn btn-success btn-lg dropdown-toggle ms-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{state}} Officials
+                        </button>
+                        <div id="official_dropdown">
+                            
+                            <ul class="dropdown-menu">
+                                <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+                                
+                                {% for official in officials %}
+                                <li><a class="dropdown-item" href="officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                </div>
             </div>
-        </a>
-    {% endfor %}
-</div>
+            
+            <!-- Modify your posts loop to handle the sorting parameter -->
+            <div class="official_cards">
+                {% set sort_criteria = request.args.get('sort', default='timestamp') %}
+                {% set sorted_posts = posts | sort(attribute=sort_criteria, reverse=True) %}
+                
+                {% for post in sorted_posts %}
+                <a href="{{ post.url }}" class="card_link" target="_blank">
+                    <div class="card border-2 border-danger mb-3 gap-3 bg-light"
+                    style="max-width:40rem; position: relative;">
+                    <img src="{{ post.post_avatar }}" class='user_avatar' alt="">
+                    {% if post.username[1:] == post.query[23:] %}
+                    <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{
+                        official.last_name }}'s tweet</div>
+                        {% else %}
+                        <div class="card-header bg-dark text-light is_link">{{ official.first_name }}
+                            {{official.last_name}} retweeted {{post.username}}</div>
+                        {% endif %}
+                        <div class="card-body bg-light text-dark">
+                            <p class="card-text is_link">{{ post.text }}</p>
+                            <div class="text-end">
+                                <h6 class="card-subtitle text-body-secondary align-self-end is_link"> {{
+                                    post.timestamp.strftime("%B %d, %Y") }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
 
 
         </div>
 
         <div class="official_right_div">
-            <div class="bg-dark official_site_nav">
+            <div class="sidebar_links">
+                {% if official.twitter_account %}
+                <div class="official_user_info_item">
+                    <a href="https://twitter.com/{{ official.twitter_account }}" target="_blank">
+                        <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;">
+                    </a>
+                </div>
+                {% else %}
+                <div class="official_user_info_item">
+                    <a href="#">
+                        <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;"
+                            onclick="alertFunction(
+                        btnId='twitter_icon',
+                        buttonTitle='Twitter',
+                        official='{{official.first_name}} {{official.last_name}}',
+                        // alertDiv='TwitterAlertsContainer'
+                            )">
+                    </a>
+                </div>
+                {% endif %}
+                {% if official.facebook_account %}
+                <div class="official_user_info_item">
+                    <a href="https://facebook.com/{{ official.facebook_account }}" target="_blank">
+                        <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;">
+                    </a>
+                </div>
+                {% else %}
+                <div id="facebook_icon" class="official_user_info_item">
+                    <a href="#" id="facebook_btn">
+                        <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;" onclick="alertFunction(
+                            btnId='facebook_icon', 
+                            buttonTitle='Facebook', 
+                            official='{{official.first_name}} {{official.last_name}}',
+                            // alertDiv='FacebookAlertsContainer'
+                            )">
+                    </a>
+                </div>
+                <div id="alertsContainer">
+
+                </div>
+                {% endif %}
+                {% if official.youtube_account %}
+                <div class="official_user_info_item">
+                    <a href="https://youtube.com/{{ official.youtube_account }}" target="_blank">
+                        <img src="{{ url_for('static', filename='youtube.png') }}" style="max-width: 75%;">
+                    </a>
+                </div>
+                {% else %}
+                <div id="youtube_icon" class="official_user_info_item">
+                    <a href="#" id="youtube_btn">
+                        <img src="{{ url_for('static', filename='youtube.png') }}" style="max-width: 75%;" onclick="alertFunction(
+                    btnId='youtube_icon', 
+                    buttonTitle='youtube', 
+                    official='{{official.first_name}} {{official.last_name}}',
+                    // alertDiv='FacebookAlertsContainer'
+                    )">
+                    </a>
+                </div>
+                <div id="alertsContainer">
+
+                </div>
+                {% endif %}
+                {% if official.youtube_account %}
+                <div class="official_user_info_item">
+                    <a href="{{ official.url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='website.png') }}" style="max-width: 75%;">
+                    </a>
+                </div>
+                {% else %}
+                <div id="website_icon" class="official_user_info_item">
+                    <a href="#" id="website_btn">
+                        <img src="{{ url_for('static', filename='website.png') }}" title="Official website" style="max-width: 75%;" onclick="alertFunction(
+                btnId='website_icon', 
+                buttonTitle='website', 
+                official='{{official.first_name}} {{official.last_name}}',
+                )">
+                    </a>
+                </div>
+                <div id="alertsContainer">
+
+                </div>
+                {% endif %}
+            </div>
+            <!-- <div class="bg-dark official_site_nav">
                 <div class="nav_item">
                     <a href="#">Home</a>
                 </div>
@@ -188,13 +254,15 @@
                     <a href="#">Contact</a>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </div>
 </body>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </html>
