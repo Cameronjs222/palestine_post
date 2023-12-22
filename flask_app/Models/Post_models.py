@@ -61,6 +61,18 @@ class Post():
         return connectToMySQL(cls.my_db).query_db(query, data)
     
     @classmethod
+    def get_post_images(cls, post_id):
+        query = """
+        SELECT * FROM images WHERE post_id = %(post_id)s
+        """
+
+        data = {
+            'post_id': post_id
+        }
+
+        return connectToMySQL(cls.my_db).query_db(query, data)
+    
+    @classmethod
     def get_posts(cls):
         query = """
         SELECT * FROM post
