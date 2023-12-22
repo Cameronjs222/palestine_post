@@ -55,7 +55,12 @@
 
                 {% for official in officials %}
                 {% if not official.district %}
-                <div class="card border-2 border-danger mb-3 gap-3 bg-light" style=" position: relative;">
+                <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style=" position: relative;">
+                    {% if official.in_office == 0 %}
+                    <span class="text-danger position-absolute in-office">
+                        Out of Office
+                    </span>
+                    {% endif %}
                     <a href="../officials/{{official.id}}" class="card_link" target="_blank">
                         <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
                         
@@ -85,8 +90,12 @@
 
                     {% for official in officials %}
                     {% if official.district %}
-                    <div class="card border-2 border-danger bg-light" style="max-width: 20rem;">
-                        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
+                <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style="max-width: 20rem;">
+                    {% if official.in_office == 0 %}
+                    <span class="text-danger position-absolute in-office">
+                        Out of Office
+                    </span>
+                    {% endif %}                        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
                             <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
                             
                             
