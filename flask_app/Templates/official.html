@@ -40,7 +40,7 @@
                     <div>
                         <span>
                             Phone:
-                        </span>
+                        </span><br>
                         <span>{{official.phone}}</span>
                     </div>
                     <div>
@@ -118,7 +118,7 @@
                                 <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
                                 
                                 {% for official in officials %}
-                                <li><a class="dropdown-item" href="officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
+                                <li><a class="dropdown-item" href="../officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -151,6 +151,9 @@
                                     post.timestamp.strftime("%B %d, %Y") }}</h6>
                             </div>
                         </div>
+                        {% for image in post_images[post.id] %}
+                        <img src="{{image['image_url']}}" alt="">
+                        {% endfor %}
                     </div>
                 </a>
                 {% endfor %}
