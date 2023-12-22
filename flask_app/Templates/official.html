@@ -93,12 +93,11 @@
                         <li><a class="dropdown-item" href="?sort=retweets">Most retweets</a></li>
                     </ul>
                 </div>
-                <div class="state-page-dropdowns">
-                    <div class="dropdown my_dropdown">
-                        <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="dropdown my_dropdown official_dropdown">
+                        <button class="btn btn-success dropdown-toggle official_dropdown_button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Select new state
                         </button>
-                        <div id="state_dropdown">
+                        <div id="state_dropdown" class="">
                             
                             <ul class="dropdown-menu">
                                 <input type="text" placeholder="Search.." id="state_input" onkeyup="filterFunction('state_dropdown', 'state_input')">
@@ -108,8 +107,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="dropdown my_dropdown">
-                        <button class="btn btn-success btn-lg dropdown-toggle ms-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="dropdown my_dropdown official_dropdown">
+                        <button class="btn btn-success dropdown-toggle ms-2 official_drowdown_button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{state}} Officials
                         </button>
                         <div id="official_dropdown">
@@ -124,7 +123,6 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
             
             <!-- Modify your posts loop to handle the sorting parameter -->
@@ -134,8 +132,7 @@
                 
                 {% for post in sorted_posts %}
                 <a href="{{ post.url }}" class="card_link" target="_blank">
-                    <div class="card border-2 border-danger mb-3 gap-3 bg-light"
-                    style="max-width:40rem; position: relative;">
+                    <div class="card border-2 border-danger mb-3 gap-3 bg-ligh card_item">
                     <img src="{{ post.post_avatar }}" class='user_avatar' alt="">
                     {% if post.username[1:] == post.query[23:] %}
                     <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{
@@ -149,31 +146,36 @@
                             <div class="text-end">
                                 <h6 class="card-subtitle text-body-secondary align-self-end is_link"> {{
                                     post.timestamp.strftime("%B %d, %Y") }}</h6>
+                                </div>
                             </div>
+                            {% for image in post_images[post.id] %}
+                            <img src="{{image['image_url']}}" alt="">
+                            {% endfor %}
                         </div>
-                        {% for image in post_images[post.id] %}
-                        <img src="{{image['image_url']}}" alt="">
-                        {% endfor %}
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
-
-
-        </div>
-
-        <div class="official_right_div">
-            <div class="sidebar_links">
-                {% if official.twitter_account %}
-                <div class="official_user_info_item">
-                    <a href="https://twitter.com/{{ official.twitter_account }}" target="_blank">
-                        <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;">
                     </a>
+                    {% endfor %}
                 </div>
-                {% else %}
-                <div class="official_user_info_item">
-                    <a href="#">
-                        <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;"
+                
+                
+            </div>
+            
+            <div class="official_right_div">
+                <a href="../" class="link-light">
+                    <button class="btn btn-success btn-lg official-button">
+                            Home
+                        </button>
+                    </a>
+                <div class="sidebar_links">
+                    {% if official.twitter_account %}
+                    <div class="official_user_info_item">
+                        <a href="https://twitter.com/{{ official.twitter_account }}" target="_blank">
+                            <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;">
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="official_user_info_item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;"
                             onclick="alertFunction(
                         btnId='twitter_icon',
                         buttonTitle='Twitter',
@@ -246,6 +248,62 @@
                 </div>
                 {% endif %}
             </div>
+            <button class="btn btn-success" style="display: none;" id="phone-toggle">
+                test
+            </button>
+            <div class="official_user_info text-light" id="phone_left_div">
+                <div class="mt-3 official_contact_info">
+                    <div>
+                        <span>{{official.first_name}}</span>
+                        <span>{{official.last_name}},</span>
+                        <span>{{official.party}}</span>
+                    </div>
+                    <div>
+                        <span>{{official.title}}</span>
+                        <span>for the state of {{official.state}}</span>
+                    </div>
+
+                    {% if official.district %}
+                    <div>
+                        <span>District:</span>
+                        <span>{{official.district}}</span>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <span>
+                            Phone:
+                        </span><br>
+                        <span>{{official.phone}}</span>
+                    </div>
+                    <div>
+                        {% if official.in_office == 1 %}
+                        <span>Currently in office</span>
+                        {% else %}
+                        <span>Not in office</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <span>Next election:</span>
+                        <span>{{official.next_election}}</span>
+                    </div>
+                    <div>
+                        <span>
+                            Contact form:
+                        </span>
+                        {% if official.contact_form %}
+                        <span>
+                            <a href="{{official.contact_form}}" target="_blank" class="link-success">Link</a>
+                        </span>
+                        {% else %}
+                        <span>
+                            None
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            
             <!-- <div class="bg-dark official_site_nav">
                 <div class="nav_item">
                     <a href="#">Home</a>

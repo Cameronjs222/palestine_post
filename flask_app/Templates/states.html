@@ -11,7 +11,7 @@
     <div class="d-flex flex-column align-content-center">
         <div class="reps">
             <div>
-                <button class="btn btn-success btn-lg state-button">
+                <button class="btn btn-success state-button">
                     <a href="../" class="link-light">Home</a>
                 </button>
             </div>
@@ -19,7 +19,7 @@
 
             <div class="state-page-dropdowns">
                 <div class="dropdown my_dropdown">
-                    <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select new state
                     </button>
                     <div id="state_dropdown">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="dropdown my_dropdown">
-                    <button class="btn btn-success btn-lg dropdown-toggle state-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-success dropdown-toggle state-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{state}} Officials
                     </button>
                     <div id="official_dropdown">
@@ -49,13 +49,13 @@
                 </div>
             </div>
         </div>
-        <div class="ms-4">
+        <div class="ms-4 mt-5">
             <h2>{{ state }} state Senators</h2>
-            <div class="sen-box col-7">
+            <div class="sen-box">
 
                 {% for official in officials %}
                 {% if not official.district %}
-                <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style=" position: relative;">
+                <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style=" position: relative;max-width: 20rem;">
                     {% if official.in_office == 0 %}
                     <span class="text-danger position-absolute in-office">
                         Out of Office
@@ -65,7 +65,7 @@
                         <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
                         
                         
-                        <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
+                        <div class="card-header bg-dark text-light is_link d-flex justify-content-between" >
                             <div>
                                 {{ official.first_name }} {{ official.last_name }}, {{ official.party }} Senator for {{ official.state }}
                             </div>
@@ -83,7 +83,7 @@
                 {% endfor %}
             </div>
         </div>
-            <div class="ms-4">
+            <div class="ms-4 mt-5">
                 <h2>{{state}} Representatives</h2>
                 
                 <div class="sen-box">
