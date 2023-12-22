@@ -31,19 +31,19 @@ def index():
 
 @app.route('/states/<state>')
 def show_state(state):
-        temp_officials = Official.find_all_officials()
-        all_states_set = set()
+    temp_officials = Official.find_all_officials()
+    all_states_set = set()
 
-        for official in temp_officials:
-            official_state = official.state[:2]  # Using slicing for the first two characters
-            if (official_state == 'US'):
-                continue
-            all_states_set.add(official_state)
+    for official in temp_officials:
+        official_state = official.state[:2]  # Using slicing for the first two characters
+        if (official_state == 'US'):
+            continue
+        all_states_set.add(official_state)
 
-            all_states_list = sorted(list(all_states_set))
-        officials = Official.find_officials_by_state(state)
-        print(officials)
-        return render_template("states.html", officials = officials, state = state, all_states = all_states_list)
+        all_states_list = sorted(list(all_states_set))
+    officials = Official.find_officials_by_state(state)
+    print(officials)
+    return render_template("states.html", officials = officials, state = state, all_states = all_states_list)
 
 @app.route('/official/congress/get', methods=['POST', 'GET'])
 def get_congress():
