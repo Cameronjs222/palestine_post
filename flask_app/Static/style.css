@@ -24,9 +24,20 @@ html {
     z-index: 2;
     text-align: start;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     align-items: end;
     color: green;
+}
+
+.official_header_dropdowns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding-right: -10px;
 }
 
 .official_sidebar {
@@ -43,6 +54,18 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.official_contact_info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    text-align: start;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
 }
 
 .reps {
@@ -86,17 +109,26 @@ html {
         margin: 0 5rem;
     }
 
+
 .sidebar_links {
     height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    margin: 20px;
+    gap: 3rem
 }
 .official_left_div {
-    text-align: center;
+    text-align: start;
     height: 150vh;
     width: 10rem;
     top: 0;
+}
+
+.official_button_div {
+    display: flex;
+    justify-content: start;
+    text-align: start;
 }
 
 .official_right_div {
@@ -104,6 +136,7 @@ html {
     height: 150vh;
     width: 10rem;
     top: 0;
+    margin: 0rem 0;
 }
 
 .official_site_nav {
