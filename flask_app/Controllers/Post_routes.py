@@ -19,9 +19,14 @@ def show_official(official_id):
     official = Official.find_official_by_id(official_id)
     print(official.first_name)
     posts = Post.get_posts_by_id(official_id)
+    post_images = {}
+    if (posts == False):
+        return redirect('/noComment/' + str(official_id))
+    for post in posts:
+        post_images[post.id] = Post.get_post_images(post.id)
     if posts == False:
         return redirect('/noComment/' + str(official_id))
-    return render_template('official.html', posts = posts, official = official, all_states = all_states_list, officials = officials)
+    return render_template('official.html', posts = posts, official = official, all_states = all_states_list, officials = officials, post_images = post_images)
 
 @app.route('/noComment/<int:official_id>')
 def no_comment(official_id):
