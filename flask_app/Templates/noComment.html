@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body class="">
+
+    <div class="my_container">
+            <div class="my_header">
+                
+            </div>
+            <div class="reps home">
+                <div class="state-page-dropdowns no-comment">
+                    <h1>No Comment </h1>
+                    <div class="dropdown my_dropdown">
+                        <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select new state
+                        </button>
+                        <div id="state_dropdown">
+                            
+                            <ul class="dropdown-menu">
+                                <input type="text" placeholder="Search.." id="state_input" onkeyup="filterFunction('state_dropdown', 'state_input')">
+                                {% for state in all_states %}
+                                <li><a class="dropdown-item" href="../states/{{state}}">{{state}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="dropdown my_dropdown">
+                        <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{state}} Officials
+                        </button>
+                        <div id="official_dropdown">
+                            
+                            <ul class="dropdown-menu">
+                                <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+                                
+                                {% for official in officials %}
+                                <li><a class="dropdown-item" href="officials/{{official.id}}">{{official.first_name}} {{official.last_name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+<!-- 
+                <div>
+                    <button class="btn btn-success btn-lg state-button">
+                        <a href="../" class="link-light">Home</a>
+                    </button>
+                </div> -->
+            </div>
+            <div class="front-page-box">
+                
+                <div class="text-success mt-5">
+                    <h2>
+                        <span>Unfortunatly, it does not seem like</span>
+                        {% if official.title == "Representative" %}
+                        <span>{{official.title}}</span>
+                        {% else %}
+                        <span>{{official.short_title}}</span>
+                        {% endif %}
+                        <span>{{official.first_name}} {{official.last_name}}</span>
+                        <span>has anything to say about palestine.</span><br>
+                        {% if official.twitter_account %}
+                        <span>They do have a twitter account, but may not post regularly. Please check their other social media account. I hope to be able collect post from other platforms other that twitter at some point.</span>
+                        {% else %}
+                        <span>They do not have a twitter account, but feel free to check their other social media account. I hope to be able collect post from other platforms other that twitter at some point.</span>
+                        {% endif %}
+                    </h2>
+
+                    <div class="social-media-list-container">
+
+                        <ul class="social-media-list">
+                            {% if official.twitter_account %}
+                            <div class="official_user_info_item">
+                                <a href="https://twitter.com/{{ official.twitter_account }}" target="_blank">
+                                    <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;">
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="official_user_info_item">
+                                <a href="#">
+                                    <img src="{{ url_for('static', filename='twitter.png') }}" style="max-width: 50%;"
+                                    onclick="alertFunction(
+                        btnId='twitter_icon',
+                        buttonTitle='Twitter',
+                        official='{{official.first_name}} {{official.last_name}}',
+                        // alertDiv='TwitterAlertsContainer'
+                            )">
+                    </a>
+                </div>
+                {% endif %}
+                {% if official.facebook_account %}
+                <div class="official_user_info_item">
+                    <a href="https://facebook.com/{{ official.facebook_account }}" target="_blank">
+                        <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;">
+                    </a>
+                </div>
+                {% else %}
+                <div id="facebook_icon" class="official_user_info_item">
+                    <a href="#" id="facebook_btn">
+                        <img src="{{ url_for('static', filename='facebook.png') }}" style="max-width: 50%;" onclick="alertFunction(
+                            btnId='facebook_icon', 
+                            buttonTitle='Facebook', 
+                            official='{{official.first_name}} {{official.last_name}}',
+                            // alertDiv='FacebookAlertsContainer'
+                            )">
+                    </a>
+                </div>
+                <div id="alertsContainer">
+                    
+                </div>
+                {% endif %}
+                {% if official.youtube_account %}
+                <div class="official_user_info_item">
+                    <a href="https://youtube.com/{{ official.youtube_account }}" target="_blank">
+                        <img src="{{ url_for('static', filename='youtube.png') }}" style="max-width: 75%;">
+                    </a>
+                </div>
+                {% else %}
+                <div id="youtube_icon" class="official_user_info_item">
+                    <a href="#" id="youtube_btn">
+                        <img src="{{ url_for('static', filename='youtube.png') }}" style="max-width: 75%;" onclick="alertFunction(
+                    btnId='youtube_icon', 
+                    buttonTitle='youtube', 
+                    official='{{official.first_name}} {{official.last_name}}',
+                    // alertDiv='FacebookAlertsContainer'
+                    )">
+                    </a>
+                </div>
+                <div id="alertsContainer">
+                    
+                </div>
+                {% endif %}
+                {% if official.youtube_account %}
+                <div class="official_user_info_item">
+                    <a href="{{ official.url }}" target="_blank">
+                        <img src="{{ url_for('static', filename='website.png') }}" style="max-width: 75%;">
+                    </a>
+                </div>
+                {% else %}
+                <div id="website_icon" class="official_user_info_item">
+                    <a href="#" id="website_btn">
+                        <img src="{{ url_for('static', filename='website.png') }}" title="Official website" style="max-width: 75%;" onclick="alertFunction(
+                btnId='website_icon', 
+                buttonTitle='website', 
+                official='{{official.first_name}} {{official.last_name}}',
+                )">
+                    </a>
+                </div>
+                <div id="alertsContainer">
+                    
+                </div>
+                {% endif %}
+            </ul>
+        </div>
+        
+
+        </div>
+    </div>
+    
+    <!-- <span>
+        This website is designed as an archive to highlight recent congress member's stance on palenstine.
+    </span></br>
+    <span>
+        Currently, post are focused to 2023 and twitter. Though, we hope to expand to other social media platforms.
+    </span></br>
+    <span>
+        See if your representative have spoken out against geneocide or have remained silent.
+                    </span> -->
+                </p>
+                <div class="my_footnotes">
+
+            </div>
+        </div>
+    </body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</html>
