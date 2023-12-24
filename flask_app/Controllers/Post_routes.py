@@ -33,12 +33,12 @@ def no_comment(official_id):
     official = Official.find_official_by_id(official_id)
     return render_template('noComment.html', official = official)
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
+# @app.route('/login')
+# def login():
+#     return render_template('login.html')
 
-@app.route('/validate_login', methods=['POST'])
-def validate_login():
-    if not Official.validate_login(request.form):
-        return redirect('/login')
-    return redirect('/officials')
+# @app.route('/validate_login', methods=['POST'])
+# def validate_login():
+#     if not Official.validate_login(request.form):
+#         return redirect('/login')
+#     return redirect('/officials')
