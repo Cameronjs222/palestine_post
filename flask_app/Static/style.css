@@ -267,6 +267,12 @@ html {
 }
 
 @media only screen and (max-width: 450px)  {
+
+    .tweet_img {
+        display: none;
+    }
+
+    
     #phone-home-button {
         display: block;
     }
