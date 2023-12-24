@@ -8,9 +8,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import concurrent.futures
 
-@app.route('/admin')
-def admin():
-    return render_template("index.html")
+# @app.route('/admin')
+# def admin():
+#     return render_template("index.html")
 @app.route('/')
 def index():
     officials = Official.find_all_officials()
