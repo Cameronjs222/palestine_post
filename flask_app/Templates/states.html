@@ -9,21 +9,19 @@
 </head>
 <body>
     <div class="d-flex flex-column align-content-center">
-        <div class="reps">
+        <div class="reps state-reps">
             <div>
                 <button class="btn btn-success state-button">
                     <a href="../" class="link-light">Home</a>
                 </button>
             </div>
             <h1>Find your representatives </h1>
-
             <div class="state-page-dropdowns">
                 <div class="dropdown my_dropdown">
                     <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select new state
                     </button>
                     <div id="state_dropdown">
-
                         <ul class="dropdown-menu">
                             <input type="text" placeholder="Search.." id="state_input" onkeyup="filterFunction('state_dropdown', 'state_input')">
                             {% for state in all_states %}
@@ -56,12 +54,7 @@
                 {% for official in officials %}
                 {% if not official.district %}
                 <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style=" position: relative;max-width: 20rem;">
-                    {% if official.in_office == 0 %}
-                    <span class="text-danger position-absolute in-office">
-                        Out of Office
-                    </span>
-                    {% endif %}
-                    <a href="../officials/{{official.id}}" class="card_link" target="_blank">
+                    <a href="../officials/{{official.id}}" class="card_link">
                         <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
                         
                         
@@ -73,8 +66,50 @@
                             </div>
                         </div>
                         <div class="card-body bg-light text-dark">
-                            <p class="card-text is_link">This is a test</p>
-                            <div class="text-end">
+                            <div>
+                                <span>{{official.title}}</span>
+                                <span>for the state of {{official.state}}</span>
+                            </div>
+        
+                            {% if official.district %}
+                            <div>
+                                <span>District:</span>
+                                <span>{{official.district}}</span>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <span>
+                                    Phone:
+                                </span>
+                                <span>{{official.phone}}</span>
+                            </div>
+                            <div>
+                                {% if official.in_office == 1 %}
+                                <span class="text-success">Currently in office</span>
+                                {% else %}
+                                <span class="text-danger">Not in office</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <span>Next election:</span>
+                                <span>{{official.next_election}}</span>
+                            </div>
+                            <div>
+                                <span>
+                                    Contact form:
+                                </span>
+                                {% if official.contact_form %}
+                                <span>
+                                    <a href="{{official.contact_form}}" target="_blank" class="link-success">Link</a>
+                                </span>
+                                {% else %}
+                                <span>
+                                    None
+                                </span>
+                                {% endif %}
+                            </div>
+                            <div>
+                            <span>votes with party: {{official.votes_with_party_pct}}%</span>
                             </div>
                         </div>
                     </div>
@@ -90,16 +125,12 @@
 
                     {% for official in officials %}
                     {% if official.district %}
-                <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style="max-width: 20rem;">
-                    {% if official.in_office == 0 %}
-                    <span class="text-danger position-absolute in-office">
-                        Out of Office
-                    </span>
-                    {% endif %}                        <a href="../officials/{{official.id}}" class="card_link" target="_blank">
+                    <div class="card border-2 border-danger mb-3 gap-3 bg-light m-3" style=" position: relative;max-width: 20rem;">
+                        <a href="../officials/{{official.id}}" class="card_link">
                             <!-- <img src="{{ official.official_avatar }}" class='user_avatar' alt=""> -->
                             
                             
-                            <div class="card-header bg-dark text-light is_link d-flex justify-content-between">
+                            <div class="card-header bg-dark text-light is_link d-flex justify-content-between" >
                                 <div>
                                     {{ official.first_name }} {{ official.last_name }}, {{ official.party }} Senator for {{ official.state }}
                                 </div>
@@ -107,12 +138,50 @@
                                 </div>
                             </div>
                             <div class="card-body bg-light text-dark">
-                                {% if official.gender == 'M' %}
-                                <p class="card-text is_link">{{official.first_name}} {{official.last_name}} votes with her party {{official.votes_with_party_pct}}% of the time, see what she has to say about palestine.</p>
-                                {% elif official.gender == 'F' %}
-                                <p class="card-text is_link">{{official.first_name}} {{official.last_name}} votes with her party {{official.votes_with_party_pct}}% of the time, see what she has to say about palestine.</p>
+                                <div>
+                                    <span>{{official.title}}</span>
+                                    <span>for the state of {{official.state}}</span>
+                                </div>
+            
+                                {% if official.district %}
+                                <div>
+                                    <span>District:</span>
+                                    <span>{{official.district}}</span>
+                                </div>
                                 {% endif %}
-                                <div class="text-end">
+                                <div>
+                                    <span>
+                                        Phone:
+                                    </span>
+                                    <span>{{official.phone}}</span>
+                                </div>
+                                <div>
+                                    {% if official.in_office == 1 %}
+                                    <span class="text-success">Currently in office</span>
+                                    {% else %}
+                                    <span class="text-danger">Not in office</span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <span>Next election:</span>
+                                    <span>{{official.next_election}}</span>
+                                </div>
+                                <div>
+                                    <span>
+                                        Contact form:
+                                    </span>
+                                    {% if official.contact_form %}
+                                    <span>
+                                        <a href="{{official.contact_form}}" target="_blank" class="link-success">Link</a>
+                                    </span>
+                                    {% else %}
+                                    <span>
+                                        None
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                <span>votes with party: {{official.votes_with_party_pct}}%</span>
                                 </div>
                             </div>
                         </div>
