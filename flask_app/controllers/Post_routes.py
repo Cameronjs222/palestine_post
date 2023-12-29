@@ -30,8 +30,18 @@ def show_official(official_id):
 
 @app.route('/noComment/<int:official_id>')
 def no_comment(official_id):
+    officials = Official.find_all_officials()
+    all_states_set = set()
+
+    for official in officials:
+        official_state = official.state[:2]
+        if (official_state == 'US'):
+            continue
+        all_states_set.add(official_state)
+
+        all_states_list = sorted(list(all_states_set))
     official = Official.find_official_by_id(official_id)
-    return render_template('noComment.html', official = official)
+    return render_template('noComment.html', official = official, all_states = all_states_list, officials = officials)
 
 # @app.route('/login')
 # def login():

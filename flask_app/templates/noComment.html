@@ -57,18 +57,18 @@
                 
                 <div class="text-success mt-5">
                     <h2>
-                        <span>Unfortunatly, it does not seem like</span>
+                        <span>Unfortunately, it does not seem like</span>
                         {% if official.title == "Representative" %}
                         <span>{{official.title}}</span>
                         {% else %}
                         <span>{{official.short_title}}</span>
                         {% endif %}
                         <span>{{official.first_name}} {{official.last_name}}</span>
-                        <span>has anything to say about palestine.</span><br>
+                        <span>has anything to say about Palestine.</span><br>
                         {% if official.twitter_account %}
                         <span>They do have a twitter account, but may not post regularly. Please check their other social media account. I hope to be able collect post from other platforms other that twitter at some point.</span>
                         {% else %}
-                        <span>They do not have a twitter account, but feel free to check their other social media account. I hope to be able collect post from other platforms other that twitter at some point.</span>
+                        <span>They're twitter account is not in our system, but feel free to check their other social media account. I hope to be able collect post from other platforms other that twitter at some point.</span>
                         {% endif %}
                     </h2>
 
