@@ -76,7 +76,7 @@
             <div class="official_header mt-3">
                 <h1>
                     <span>{{official.first_name}}</span>
-                    <span>{{official.last_name}}</span>'s stance on Palestine
+                    <span>{{official.last_name}}</span>'s stance on palestine
                 </h1>
                 <!-- Add this dropdown button somewhere in your HTML, preferably above the post cards -->
                 <div class="official_header_dropdowns">
@@ -134,9 +134,9 @@
                 <a href="{{ post.url }}" class="card_link" target="_blank">
                     <div class="card border-2 border-danger mb-3 gap-3 bg-ligh card_item">
                     <img src="{{ post.post_avatar }}" class='user_avatar' alt="">
-                    {% if post.username[1:] == post.query[23:] %}
+                    {% if post.username[1:] in post.query %}
                     <div class="card-header bg-dark text-light is_link">{{ official.first_name }} {{
-                        official.last_name }}'s tweet</div>
+                        official.last_name }} tweeted</div>
                         {% else %}
                         <div class="card-header bg-dark text-light is_link">{{ official.first_name }}
                             {{official.last_name}} retweeted {{post.username}}</div>
