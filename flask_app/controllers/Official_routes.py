@@ -8,9 +8,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import concurrent.futures
 
-# @app.route('/admin')
-# def admin():
-#     return render_template("index.html")
+@app.route('/admin')
+def admin():
+    if session.get('user_id') != 1:
+        return redirect('/login')
+    return render_template("index.html")
 @app.route('/')
 def index():
     officials = Official.find_all_officials()
@@ -85,6 +87,7 @@ def get_congress():
 def new_twitter():
     date = request.form['date']
     limit = int(request.form['limit'])
+    older_than = request.form['older_than']
     congress_limit = int(request.form['congress_limit'])
     full_congress = Official.find_all_officials()[:congress_limit]
 
@@ -93,7 +96,7 @@ def new_twitter():
         with ThreadPoolExecutor() as executor:
             # Use list comprehension to submit tasks
             futures = [
-                executor.submit(twitter_scrape, member.twitter_account, date, limit, member.id) for member in full_congress
+                executor.submit(twitter_scrape, member.twitter_account, date,older_than, limit, member.id) for member in full_congress
             ]
 
             # Use as_completed to iterate over completed futures
