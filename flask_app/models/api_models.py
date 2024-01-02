@@ -8,7 +8,7 @@ import os
 # Initialize the ApifyClient with your API token
 client = ApifyClient(apify_api_key)
 
-def twitter_scrape(official, date, limit=500, id=None):
+def twitter_scrape(official, date,older_than, limit=500, id=None):
     output = []
 # Prepare the Actor input
     run_input = {
@@ -18,7 +18,7 @@ def twitter_scrape(official, date, limit=500, id=None):
             "user_info": "user info and replying info",
             "max_attempts": 5,
             "newer_than": date,
-            "older_than": "2023-10-07",
+            "older_than": older_than,
 
             "from_user": [official]
         }
