@@ -22,20 +22,13 @@
         </form>
     </div>
 
-    <div class="row my-5 search_bar d-flex justify-content-center">
-        <p>
-            collect data from twitter scraper
-        </p>
-        <form action="../official/twitter/update">
-            <input type="datetime" name="date" id="">
-            <input type="submit" value="Collect">
-        </form>
-    </div>
-
     <div class="test">
         <p>Get tweets</p>
         <form action="../official/twitter/update" method="post">
+            <label for="date">Newer than</label>
             <input type="date" name="date" placeholder="date">
+            <label for="older_than">Older than</label>
+            <input type="date" name="older_than">
             <input type="number" name="limit" placeholder="limit">
             <input type="number" name="congress_limit" placeholder="congress_limit">
             <input type="submit" value="test">
@@ -46,7 +39,7 @@
         <p>Get new tweets</p>
         <form action="../official/twitter/list" method="post">
             <input type="date" name="date" placeholder="date">
-            <input type="number" name="limit" placeholder="limit">
+            <input type="number" name="limit" placeholder="limit"><br>
             <textarea name="list" id="" cols="30" rows="10"></textarea>
             <input type="submit" value="test">
         </form>
