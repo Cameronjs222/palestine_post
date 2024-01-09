@@ -83,7 +83,27 @@ html {
     }
 
     .home{
+        display: flex;
         justify-content: center;
+        flex-direction: column;
+    }
+    .home div{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .advanced_search_official_dropdown {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .advanced_search_official_dropdown input {
+        margin: 0 10px 0 0;
+        width: 1rem;
     }
 
 
@@ -143,6 +163,10 @@ html {
     width: 10rem;
     top: 0;
     margin: 0rem 0;
+}
+
+.official_right_div button {
+    display: none;
 }
 
 .official_site_nav {
@@ -267,6 +291,10 @@ html {
 }
 
 @media only screen and (max-width: 450px)  {
+
+    .official_right_div button {
+        display: block;
+    }
 
     .tweet_img {
         display: none;
@@ -393,6 +421,11 @@ html {
 }
 
 @media only screen and (max-width: 1000px)  {
+
+    .official_right_div button {
+        display: block;
+        margin: 0 0 0 2rem;
+    }
 
     .state-reps {
         justify-content: start;

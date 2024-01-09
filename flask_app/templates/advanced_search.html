@@ -21,20 +21,6 @@
                     </button>
                 </div> -->
                 <h1>Find your representatives </h1>
-
-            </div>
-            <div class="front-page-box">
-                
-                <div class="text-success mt-5">
-                    <h2>
-                        Welcome to Congress on Palestine, an archive for tracking congress members' recent stances on Palestine throughout 2023. Find out if your representative has called for a cease fire or remained silent. Easily find their contact information to let them know how you feel.
-                    </h2>
-                    <br/>
-                    <h2>
-                        Search for your representatives by state or by name directly.
-                    </h2>
-                </div>
-                
                 <div class="search-page-dropdowns">
                     <div class="dropdown my_dropdown">
                         <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -66,6 +52,63 @@
                         </div>
                         </div>
                     </div>
+            </div>
+            <div class="front-page-box">
+                
+                <div class="text-success mt-5">
+                    <h2>
+                        Welcome to Congress on Palestine, an archive for tracking congress members' recent stances on Palestine. Stay informed about their positions and easily find their contact information to let them know how you feel.
+                    </h2>
+                    <h2>
+                        Search for your representatives by state or by name directly.
+                    </h2>
+                </div>
+
+                <div class="advanced_search border border-danger">
+                    <span>Create an custom search of you officials</span>
+                    <form action="../advanced_search/submit">
+                        <div class="dropdown my_dropdown">
+                            <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Include Keywords
+                            </button>
+                            <div id="official_dropdown">
+                                
+                                <ul class="dropdown-menu">
+                                    <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+                                    
+                                    {% for Keyword in keywords %}
+                                    <li>
+                                        <div class="advanced_search_official_dropdown">
+                                            <input type="checkbox" class="dropdown-item" name="{{keyword}}"></input>
+                                            <label for="{{keyword}}">{{keyword}}</label>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            </div>
+                        <div class="dropdown my_dropdown">
+                            <button class="btn btn-success btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Include Officials
+                            </button>
+                            <div id="official_dropdown">
+                                
+                                <ul class="dropdown-menu">
+                                    <input type="text" placeholder="Search.." id="official_input" onkeyup="filterFunction('official_dropdown', 'official_input')">
+                                    
+                                    {% for official in officials %}
+                                    <li>
+                                        <div class="advanced_search_official_dropdown">
+                                            <input type="checkbox" class="dropdown-item" name="{{official.first_name}}_{{official.last_name}}" id="{{official.first_name}}_{{official.last_name}}"></input>
+                                            <label for="{{official.first_name}}_{{official.last_name}}">{{official.first_name}} {{official.last_name}}</label>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            </div>
+                </div>
+                
                 </div>
                 
                 <!-- <span>

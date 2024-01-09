@@ -43,12 +43,16 @@ def no_comment(official_id):
     official = Official.find_official_by_id(official_id)
     return render_template('noComment.html', official = official, all_states = all_states_list, officials = officials)
 
-# @app.route('/login')
-# def login():
-#     return render_template('login.html')
+@app.route('/advanced_search')
+def advanced_search():
+    officials = Official.find_all_officials()
+    all_states_set = set()
 
-# @app.route('/validate_login', methods=['POST'])
-# def validate_login():
-#     if not Official.validate_login(request.form):
-#         return redirect('/login')
-#     return redirect('/officials')
+    for official in officials:
+        official_state = official.state[:2]
+        if (official_state == 'US'):
+            continue
+        all_states_set.add(official_state)
+
+        all_states_list = sorted(list(all_states_set))
+    return render_template('advanced_search.html', all_states = all_states_list, officials = officials)
