@@ -28,3 +28,8 @@ def register():
     User.create_user(request.form)
     return redirect('/admin')
     
+
+@app.route('/download', methods=['POST'])
+def download():
+    User.read_and_save_to_database(request.form['dataset'])
+    return redirect('/admin')
