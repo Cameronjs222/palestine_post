@@ -49,6 +49,17 @@
     {% else %}
     <p>not full_congress</p>
     {% endif %}
+
+
+    <div>
+        <h2 class="text-light">
+            download from server
+        </h2>
+        <form action="../download" method="post">
+            <label for="Dataset">Enter dataset</label>
+            <input type="text" name="dataset" placeholder="dataset">
+            <input type="submit" value="download">
+    </div>
 </div>
 </body>
 </html>
